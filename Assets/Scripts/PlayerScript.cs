@@ -4,45 +4,48 @@ public class PlayerScript : MonoBehaviour
 {
     public float speed = 1;
 
+    private Vector2 _direction;
+
+    private Rigidbody2D _rigidbody;
+    
     private Animator _animator;
     private readonly int _isMoving = Animator.StringToHash("isMoving");
 
-    private SpriteRenderer _spriteRenderer;
+    private SpriteRenderer _renderer;
 
+    // This method is called once at the start of the game.
     public void Start()
     {
+        _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _renderer = GetComponent<SpriteRenderer>();
     }
 
+    // This method is called once per frame.
     public void Update()
     {
-        Move();
-    }
-
-    private void Move()
-    {
-        // Get Input
-        var horizontal = Input.GetAxisRaw("Horizontal");
-        var vertical = Input.GetAxisRaw("Vertical");
+        _direction.x = Input.GetAxisRaw("Horizontal");
+        _direction.y = Input.GetAxisRaw("Vertical");
 
         // Normalized => Equal Velocity In All Directions
-        var direction = new Vector2(horizontal, vertical).normalized;
-
-        // Delta Time => Movement Not Affected By Frame Rate
-        transform.Translate(Time.deltaTime * speed * direction);
-
+        _direction = _direction.normalized;
+        
         // Toggle Movement Animation
-        _animator.SetBool(_isMoving, direction != Vector2.zero);
+        _animator.SetBool(_isMoving, _direction != Vector2.zero);
 
-        if (direction.x < 0)
+        // Flip Sprite Depending On Direction
+        _renderer.flipX = _direction.x switch
         {
-            _spriteRenderer.flipX = true;
-        }
+            < 0 => true,
+            > 0 => false,
+            _ => _renderer.flipX
+        };
+    }
 
-        if (direction.x > 0)
-        {
-            _spriteRenderer.flipX = false;
-        }
+    // This method does not depend on the frame rate, so it should be used for calculations related to physics.
+    public void FixedUpdate()
+    {
+        // Delta Time = Time Since Last Function Call => Movement Not Affected By Function Interval
+        _rigidbody.MovePosition(_rigidbody.position + Time.fixedDeltaTime * speed * _direction);
     }
 }
