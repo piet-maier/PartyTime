@@ -1,8 +1,17 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerScript : MonoBehaviour
 {
     public float speed = 1;
+    public int health;
+    public int attackRange;
+    public int damage;
+    public int highscore;
+
+    private float distToTarget;
+
+    public Transform target;
 
     private Vector2 _direction;
 
@@ -24,6 +33,19 @@ public class PlayerScript : MonoBehaviour
     // This method is called once per frame.
     public void Update()
     {
+        if (health <= 0)
+        {
+            Die();
+        }
+
+        if (target != null)
+            distToTarget = Vector2.Distance(transform.position, target.position);
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Attack();
+        }
+
         _direction.x = Input.GetAxisRaw("Horizontal");
         _direction.y = Input.GetAxisRaw("Vertical");
 
@@ -41,11 +63,46 @@ public class PlayerScript : MonoBehaviour
             _ => _renderer.flipX
         };
     }
+    public void Attack()
+    {
+        if (target != null & distToTarget < attackRange)
+            target.GetComponent<NpcController>().Damage(damage);
+    }
+
+ 
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("NPC"))
+        {
+            target = collision.gameObject.transform;
+        }
+    }
+    public void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("NPC"))
+        {
+            target = null;
+        }
+    }
 
     // This method does not depend on the frame rate, so it should be used for calculations related to physics.
     public void FixedUpdate()
     {
         // Delta Time = Time Since Last Function Call => Movement Not Affected By Function Interval
         _rigidbody.MovePosition(_rigidbody.position + Time.fixedDeltaTime * speed * _direction);
+    }
+
+    public void Damage(int dmg)
+    {
+        if (health > 0)
+            health -= dmg;
+        else
+            Die();
+    }
+
+    public void Die()
+    {
+        Destroy(gameObject);
+        SceneManager.LoadScene("GameOverScene");
     }
 }
