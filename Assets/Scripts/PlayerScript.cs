@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -8,6 +9,9 @@ public class PlayerScript : MonoBehaviour
     public int attackRange;
     public int damage;
     public int highscore;
+    public string playerName;
+
+    public GameObject healtbar;
 
     private float distToTarget;
 
@@ -22,17 +26,23 @@ public class PlayerScript : MonoBehaviour
 
     private SpriteRenderer _renderer;
 
+    public ScenenManager sM;
+
     // This method is called once at the start of the game.
     public void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _renderer = GetComponent<SpriteRenderer>();
+
+        playerName = "Dummy";
     }
 
     // This method is called once per frame.
     public void Update()
     {
+        HealthbarUpdate();
+       
         if (health <= 0)
         {
             Die();
@@ -56,11 +66,11 @@ public class PlayerScript : MonoBehaviour
         _animator.SetBool(_isMoving, _direction != Vector2.zero);
 
         // Flip Sprite Depending On Direction
-        _renderer.flipX = _direction.x switch
+        _renderer.flipX = _direction.x switch //switch case
         {
-            < 0 => true,
-            > 0 => false,
-            _ => _renderer.flipX
+            < 0 => true, //0
+            > 0 => false, //1
+            _ => _renderer.flipX //default
         };
     }
     public void Attack()
@@ -100,9 +110,15 @@ public class PlayerScript : MonoBehaviour
             Die();
     }
 
+    public void HealthbarUpdate()
+    {
+        healtbar.GetComponent<Text>().text = health + "";
+    }
+
     public void Die()
     {
+        sM.GetComponent<ScenenManager>().GoToGameOverScene(highscore, playerName);
         Destroy(gameObject);
-        SceneManager.LoadScene("GameOverScene");
+        
     }
 }

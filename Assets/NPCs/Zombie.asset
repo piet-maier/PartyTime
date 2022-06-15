@@ -19,7 +19,7 @@ MonoBehaviour:
   damage: 1
   level: 1
   scoreValue: 2
-  speed: 0.2
+  speed: 2
   spawnTime: 2
   hitCD: 2
   aggroRange: 1

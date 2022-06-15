@@ -18,7 +18,7 @@ public class NpcController : MonoBehaviour
     internal float decisionTimeCount = 0;
 
     // The possible directions that the object can move int, right, left, up, down, and zero for staying in place. I added zero twice to give a bigger chance if it happening than other directions
-    internal Vector3[] moveDirections = new Vector3[] { Vector3.right, Vector3.left, Vector3.up, Vector3.down, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero };
+    internal Vector2[] moveDirections = new Vector2[] { Vector2.right, Vector2.left, Vector2.up, Vector2.down, Vector2.zero, Vector2.zero, Vector2.zero, Vector2.zero };
     internal int currentMoveDirection;
 
 
@@ -29,11 +29,11 @@ public class NpcController : MonoBehaviour
     public bool isHitCD;
     public bool isChasing;
 
-    public Transform target;
+    public Rigidbody2D target;
 
     public int aggroRange;
 
-    public Rigidbody2D rb;
+    public Rigidbody2D _rigidbody;
 
     public float hitCD;
 
@@ -61,7 +61,7 @@ public class NpcController : MonoBehaviour
 
         animator = gameObject.GetComponent<Animator>();
 
-        rb = this.GetComponent<Rigidbody2D>();
+        _rigidbody = this.GetComponent<Rigidbody2D>();
 
         // Cache the transform for quicker access
         thisTransform = this.transform;
@@ -139,9 +139,9 @@ public class NpcController : MonoBehaviour
     {
         if (target != null)
         {
-            Vector3 direction = target.position - transform.position;
+            Vector3 direction = target.position - _rigidbody.position;
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            rb.rotation = angle;
+            _rigidbody.rotation = angle;
             direction.Normalize();
             //movement = direction;
         }
@@ -155,9 +155,12 @@ public class NpcController : MonoBehaviour
         //animator.SetBool("run", true);
 
         //animator.SetBool("attack", false);
-        thisTransform.position += moveDirections[currentMoveDirection] * Time.deltaTime * moveSpeed;
 
-        if (moveDirections[currentMoveDirection] == Vector3.zero)
+        _rigidbody.MovePosition(_rigidbody.position + Time.deltaTime * moveSpeed * moveDirections[currentMoveDirection].normalized);
+
+        //thisTransform.position += moveDirections[currentMoveDirection] * Time.deltaTime * moveSpeed;
+
+        if (moveDirections[currentMoveDirection] == Vector2.zero)
         {
             //animator.SetBool("attack", false);
             //animator.SetBool("run", false);
@@ -195,7 +198,11 @@ public class NpcController : MonoBehaviour
             //animator.SetBool("run", true);
             //animator.SetBool("idle", false);
             //animator.SetBool("attack", false);
-            transform.position = Vector2.MoveTowards(transform.position, target.transform.position, moveSpeed * Time.deltaTime);
+            //transform.position = Vector2.MoveTowards(transform.position, target.transform.position, moveSpeed * Time.deltaTime);
+
+            _rigidbody.MovePosition(_rigidbody.position + (target.position - _rigidbody.position).normalized * Time.deltaTime * moveSpeed);
+
+            
         }
 
         //rb.MovePosition((Vector2)transform.position + (direction * npc.speed * Time.deltaTime));
@@ -205,13 +212,13 @@ public class NpcController : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            target = collision.gameObject.transform;
+            target = collision.gameObject.GetComponent<Rigidbody2D>();
         }
     }
 
     public void StopChasingPlayer()
     {
-        rb.velocity = new Vector2(0, 0);
+        _rigidbody.velocity = new Vector2(0, 0);
         target = null;
         isChasing = false;
     }

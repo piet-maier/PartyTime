@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class ScenenManager : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class ScenenManager : MonoBehaviour
     public GameObject optionMenu;
     public GameObject highscoreMenu;
 
-   
+
 
     private void Update()
     {
@@ -23,6 +24,11 @@ public class ScenenManager : MonoBehaviour
     public void GoToGameScene()
     {
         SceneManager.LoadScene("GameScene");
+    }
+
+    public void GoToGameOverScene(int _highscore, string _playerName)
+    {
+        SceneManager.LoadScene("GameOverScene");
     }
 
     public void GoToOptions()
