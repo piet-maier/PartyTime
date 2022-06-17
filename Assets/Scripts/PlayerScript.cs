@@ -6,7 +6,7 @@ public class PlayerScript : MonoBehaviour
 {
     public float speed = 1;
     public int health;
-    public int attackRange;
+    public float attackRange;
     public int damage;
     public int highscore;
     public string playerName;
@@ -25,8 +25,6 @@ public class PlayerScript : MonoBehaviour
     private readonly int _isMoving = Animator.StringToHash("isMoving");
 
     private SpriteRenderer _renderer;
-
-    public ScenenManager sM;
 
     // This method is called once at the start of the game.
     public void Start()
@@ -117,7 +115,7 @@ public class PlayerScript : MonoBehaviour
 
     public void Die()
     {
-        sM.GetComponent<ScenenManager>().GoToGameOverScene(highscore, playerName);
+        SceneManager.LoadScene("GameOverScene");
         Destroy(gameObject);
         
     }

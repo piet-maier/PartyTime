@@ -52,12 +52,13 @@ MonoBehaviour:
   health: 0
   moveSpeed: 0
   decisionTime: {x: 1, y: 4}
+  connectedSpawnArea: {fileID: 0}
   distToTarget: 0
   isHitCD: 0
   isChasing: 0
   target: {fileID: 0}
   aggroRange: 0
-  rb: {fileID: 0}
+  _rigidbody: {fileID: 0}
   hitCD: 0
   damage: 0
   attackRange: 0
@@ -148,7 +149,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.027330637, y: -0.22450149}
+  m_Offset: {x: -0.024479542, y: -0.2298473}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -159,7 +160,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.109004974, y: 0.042630434}
+  m_Size: {x: 0.09047287, y: 0.02195999}
   m_EdgeRadius: 0
 --- !u!58 &-8962881837512932308
 CircleCollider2D:

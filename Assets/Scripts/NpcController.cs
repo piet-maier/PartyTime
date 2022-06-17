@@ -31,7 +31,7 @@ public class NpcController : MonoBehaviour
 
     public Rigidbody2D target;
 
-    public int aggroRange;
+    public float aggroRange;
 
     public Rigidbody2D _rigidbody;
 
@@ -39,7 +39,7 @@ public class NpcController : MonoBehaviour
 
     public int damage;
 
-    public int attackRange;
+    public float attackRange;
 
     public int scoreValue;
 

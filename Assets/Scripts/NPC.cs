@@ -15,8 +15,8 @@ public class NPC : ScriptableObject
     public float speed;
     public float spawnTime;
     public float hitCD;
-    public int aggroRange;
-    public int attackRange;
+    public float aggroRange;
+    public float attackRange;
     
 
     public int counter;

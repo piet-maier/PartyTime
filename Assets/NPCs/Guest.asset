@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Guest
   m_EditorClassIdentifier: 
   transform: {fileID: 0}
-  name: Max
+  name: Name
   category: Guest
   health: 50
   damage: 1

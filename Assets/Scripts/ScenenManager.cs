@@ -26,7 +26,7 @@ public class ScenenManager : MonoBehaviour
         SceneManager.LoadScene("GameScene");
     }
 
-    public void GoToGameOverScene(int _highscore, string _playerName)
+    public void GoToGameOverScene()
     {
         SceneManager.LoadScene("GameOverScene");
     }
