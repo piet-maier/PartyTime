@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerScript : MonoBehaviour
+public class Player : MonoBehaviour
 {
     public float movementSpeed = 1;
     public int health;

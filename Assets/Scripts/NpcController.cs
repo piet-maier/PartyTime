@@ -80,7 +80,7 @@ public class NpcController : MonoBehaviour
         if (health <= 0)
         {
             if (target != null)
-                target.GetComponent<PlayerScript>().highscore += GetScoreValue();
+                target.GetComponent<Player>().highscore += GetScoreValue();
 
             if (connectedSpawnArea != null)
                 connectedSpawnArea.GetComponent<NPCSpawn>().npcsAlive--;
@@ -120,7 +120,7 @@ public class NpcController : MonoBehaviour
         //animator.SetBool("idle", false);
         //animator.SetBool("run", false);
 
-        target.GetComponent<PlayerScript>().Damage(damage);
+        target.GetComponent<Player>().Damage(damage);
 
 
         StartCoroutine(StartCooldown());
