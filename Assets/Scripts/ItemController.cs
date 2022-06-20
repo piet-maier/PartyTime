@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,24 +28,31 @@ public class ItemController : MonoBehaviour
 
     public void Update()
     {
-        if ((Input.GetKeyDown(KeyCode.E)) && pickUpAllowed && !isHandUsed)
-        {
-            PickUpItem();
+        if (Input.GetKeyDown(KeyCode.E) && pickUpAllowed && !isHandUsed) PickUpItem();
+        if (Input.GetKeyDown(KeyCode.G) && isHandUsed) DropItem();
+    }
 
-           
 
-        }
-        if(Input.GetKeyDown(KeyCode.G) && isHandUsed)
-        {
-            DropItem(); 
-        }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+            //pickUpText.gameObject.SetActive(true);
+            pickUpAllowed = true;
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        Debug.Log("exit");
+        if (collision.gameObject.CompareTag("Player"))
+            //pickUpText.gameObject.SetActive(false);
+            pickUpAllowed = false;
     }
 
     public GameObject InitItem()
     {
         //gameObject.GetComponent<Text>().text = item.name;
         //gameObject.GetComponent<SpriteRenderer>().sprite = item.itemSprite;
-        
+
         return gameObject;
     }
 
@@ -58,7 +63,7 @@ public class ItemController : MonoBehaviour
 
     //public void PickUpItem() //neues objekt option
     //{
-        
+
     //    DestroyGameObject(gameObject);
     //    GameObject childObject = Instantiate(itemInHand);
     //    childObject.transform.parent = itemContainer.transform;
@@ -78,11 +83,9 @@ public class ItemController : MonoBehaviour
         gameObject.transform.position = player.transform.position;
         gameObject.GetComponent<SpriteRenderer>().sprite = item.itemSprite;
         gameObject.name = item.name;
-        
+
         Debug.Log("picked up");
         isHandUsed = true;
-
-
     }
 
 
@@ -94,26 +97,6 @@ public class ItemController : MonoBehaviour
         gameObject.GetComponent<Floating>().posOffset = player.transform.position;
 
         isHandUsed = false;
-    }
-
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            //pickUpText.gameObject.SetActive(true);
-            pickUpAllowed = true;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        Debug.Log("exit");
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            //pickUpText.gameObject.SetActive(false);
-            pickUpAllowed = false;
-        }
     }
 
     //public void OnTriggerEnter2D(Collider2D collision)
@@ -142,9 +125,8 @@ public class ItemController : MonoBehaviour
     //    }
     //}
 
-    void DestroyGameObject(GameObject obj)
+    private void DestroyGameObject(GameObject obj)
     {
         Destroy(obj);
     }
-
 }

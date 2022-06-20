@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class NpcController : MonoBehaviour
@@ -8,18 +7,11 @@ public class NpcController : MonoBehaviour
 
     public int health;
 
-    internal Transform thisTransform;
-
     // The movement speed of the object
     public float moveSpeed;
 
     // A minimum and maximum time delay for taking a decision, choosing a direction to move in
-    public Vector2 decisionTime = new Vector2(1, 4);
-    internal float decisionTimeCount = 0;
-
-    // The possible directions that the object can move int, right, left, up, down, and zero for staying in place. I added zero twice to give a bigger chance if it happening than other directions
-    internal Vector2[] moveDirections = new Vector2[] { Vector2.right, Vector2.left, Vector2.up, Vector2.down, Vector2.zero, Vector2.zero, Vector2.zero, Vector2.zero };
-    internal int currentMoveDirection;
+    public Vector2 decisionTime = new(1, 4);
 
 
     public GameObject connectedSpawnArea;
@@ -44,6 +36,16 @@ public class NpcController : MonoBehaviour
     public int scoreValue;
 
     private Animator animator;
+    internal int currentMoveDirection;
+    internal float decisionTimeCount;
+
+    // The possible directions that the object can move int, right, left, up, down, and zero for staying in place. I added zero twice to give a bigger chance if it happening than other directions
+    internal Vector2[] moveDirections =
+    {
+        Vector2.right, Vector2.left, Vector2.up, Vector2.down, Vector2.zero, Vector2.zero, Vector2.zero, Vector2.zero
+    };
+
+    internal Transform thisTransform;
 
     // Use this for initialization
     public void Start()
@@ -56,15 +58,15 @@ public class NpcController : MonoBehaviour
         damage = npc.damage;
         hitCD = npc.hitCD;
 
-        if ((GameObject.FindGameObjectsWithTag("spawnArea") != null))
+        if (GameObject.FindGameObjectsWithTag("spawnArea") != null)
             connectedSpawnArea = GetComponentInParent<NPCSpawn>().gameObject;
 
         animator = gameObject.GetComponent<Animator>();
 
-        _rigidbody = this.GetComponent<Rigidbody2D>();
+        _rigidbody = GetComponent<Rigidbody2D>();
 
         // Cache the transform for quicker access
-        thisTransform = this.transform;
+        thisTransform = transform;
 
         // Set a random time delay for taking a decision ( changing direction, or standing in place for a while )
         decisionTimeCount = Random.Range(decisionTime.x, decisionTime.y);
@@ -75,9 +77,9 @@ public class NpcController : MonoBehaviour
 
     public void Update()
     {
-        if(health <= 0)
+        if (health <= 0)
         {
-            if(target != null)
+            if (target != null)
                 target.GetComponent<PlayerScript>().highscore += GetScoreValue();
 
             if (connectedSpawnArea != null)
@@ -86,11 +88,7 @@ public class NpcController : MonoBehaviour
             Die();
         }
 
-        if (!isChasing)
-        {
-            Movement();
-
-        }
+        if (!isChasing) Movement();
 
         if (target != null)
         {
@@ -107,16 +105,17 @@ public class NpcController : MonoBehaviour
                 StopChasingPlayer();
             }
 
-            if (distToTarget < attackRange && !isHitCD)
-            {
-                Attack();
-            }
+            if (distToTarget < attackRange && !isHitCD) Attack();
         }
+    }
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player")) target = collision.gameObject.GetComponent<Rigidbody2D>();
     }
 
     public void Attack()
     {
-
         //animator.SetBool("attack", true);
         //animator.SetBool("idle", false);
         //animator.SetBool("run", false);
@@ -125,7 +124,6 @@ public class NpcController : MonoBehaviour
 
 
         StartCoroutine(StartCooldown());
-
     }
 
     public IEnumerator StartCooldown()
@@ -140,12 +138,11 @@ public class NpcController : MonoBehaviour
         if (target != null)
         {
             Vector3 direction = target.position - _rigidbody.position;
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             _rigidbody.rotation = angle;
             direction.Normalize();
             //movement = direction;
         }
-
     }
 
     public void Movement()
@@ -156,7 +153,8 @@ public class NpcController : MonoBehaviour
 
         //animator.SetBool("attack", false);
 
-        _rigidbody.MovePosition(_rigidbody.position + Time.deltaTime * moveSpeed * moveDirections[currentMoveDirection].normalized);
+        _rigidbody.MovePosition(_rigidbody.position +
+                                Time.deltaTime * moveSpeed * moveDirections[currentMoveDirection].normalized);
 
         //thisTransform.position += moveDirections[currentMoveDirection] * Time.deltaTime * moveSpeed;
 
@@ -165,7 +163,6 @@ public class NpcController : MonoBehaviour
             //animator.SetBool("attack", false);
             //animator.SetBool("run", false);
             //animator.SetBool("idle", true);
-
         }
 
         if (decisionTimeCount > 0)
@@ -178,14 +175,12 @@ public class NpcController : MonoBehaviour
             decisionTimeCount = Random.Range(decisionTime.x, decisionTime.y);
 
 
-
-
             // Choose a movement direction, or stay in place
             ChooseMoveDirection();
         }
     }
 
-    void ChooseMoveDirection()
+    private void ChooseMoveDirection()
     {
         // Choose whether to move sideways or up/down
         currentMoveDirection = Mathf.FloorToInt(Random.Range(0, moveDirections.Length));
@@ -194,26 +189,15 @@ public class NpcController : MonoBehaviour
     public void Chase()
     {
         if (target != null)
-        {
             //animator.SetBool("run", true);
             //animator.SetBool("idle", false);
             //animator.SetBool("attack", false);
             //transform.position = Vector2.MoveTowards(transform.position, target.transform.position, moveSpeed * Time.deltaTime);
 
-            _rigidbody.MovePosition(_rigidbody.position + (target.position - _rigidbody.position).normalized * Time.deltaTime * moveSpeed);
-
-            
-        }
+            _rigidbody.MovePosition(_rigidbody.position +
+                                    (target.position - _rigidbody.position).normalized * Time.deltaTime * moveSpeed);
 
         //rb.MovePosition((Vector2)transform.position + (direction * npc.speed * Time.deltaTime));
-    }
-
-    public void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            target = collision.gameObject.GetComponent<Rigidbody2D>();
-        }
     }
 
     public void StopChasingPlayer()
@@ -225,10 +209,7 @@ public class NpcController : MonoBehaviour
 
     public void Damage(int dmg)
     {
-        if (health > 0)
-        {
-            health -= dmg;
-        }
+        if (health > 0) health -= dmg;
     }
 
     public int GetScoreValue()

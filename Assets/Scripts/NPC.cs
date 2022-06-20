@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "new NPC", menuName = "NPC")]
@@ -17,7 +15,7 @@ public class NPC : ScriptableObject
     public float hitCD;
     public int aggroRange;
     public int attackRange;
-    
+
 
     public int counter;
 
@@ -34,8 +32,4 @@ public class NPC : ScriptableObject
     {
         Debug.Log(name + " ist gestorben");
     }
-    
-   
-    
-
 }

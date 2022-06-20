@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class NPCSpawn : MonoBehaviour
@@ -14,34 +13,30 @@ public class NPCSpawn : MonoBehaviour
 
     public void Start()
     {
-        for (int i = 0; i < npcPrefabs.Length; i++)
+        for (var i = 0; i < npcPrefabs.Length; i++)
         {
             var npc = Instantiate(npcPrefabs[i]);
             npc.transform.SetParent(gameObject.transform);
             npcsAlive++;
-
         }
     }
 
     public void Update()
     {
-        if(npcsAlive < npcPrefabs.Length && !isSpawning)
-        {
-            for (int i = 0; i < npcPrefabs.Length; i++)
-            {     
+        if (npcsAlive < npcPrefabs.Length && !isSpawning)
+            for (var i = 0; i < npcPrefabs.Length; i++)
+            {
                 var npc = Instantiate(npcPrefabs[i]);
                 npc.transform.SetParent(gameObject.transform);
                 npcsAlive++;
                 StartCoroutine(StartCooldown());
-
             }
-        }
     }
+
     public IEnumerator StartCooldown()
     {
         isSpawning = true;
         yield return new WaitForSeconds(spawnTime);
         isSpawning = false;
     }
-
 }
