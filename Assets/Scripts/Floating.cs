@@ -4,6 +4,7 @@
 // [MIT License](https://opensource.org/licenses/MIT)
 
 using UnityEngine;
+using System.Collections;
 
 
 // Makes objects float up & down while gently spinning.
@@ -15,18 +16,18 @@ public class Floating : MonoBehaviour
     public float frequency = 1f;
 
     // Position Storage Variables
-    public Vector3 posOffset;
-    public Vector3 tempPos;
+   public Vector3 posOffset = new Vector3();
+   public Vector3 tempPos = new Vector3();
 
     // Use this for initialization
-    private void Start()
+    void Start()
     {
-        // Store the starting position & rotation of the object
-        posOffset = transform.position; // Benutzung in ItemController
+      // Store the starting position & rotation of the object
+      posOffset = transform.position; // Benutzung in ItemController
     }
 
     // Update is called once per frame
-    private void Update()
+    void Update()
     {
         // Spin object around Y-Axis
         //transform.Rotate(new Vector3(0f, Time.deltaTime * degreesPerSecond, 0f), Space.World);
@@ -37,4 +38,5 @@ public class Floating : MonoBehaviour
 
         transform.position = tempPos;
     }
+
 }

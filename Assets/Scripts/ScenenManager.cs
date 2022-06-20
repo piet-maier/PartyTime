@@ -1,5 +1,9 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class ScenenManager : MonoBehaviour
 {
@@ -8,9 +12,13 @@ public class ScenenManager : MonoBehaviour
     public GameObject highscoreMenu;
 
 
+
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) SceneManager.LoadScene("MainMenu");
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
     }
 
     public void GoToGameScene()
@@ -44,7 +52,7 @@ public class ScenenManager : MonoBehaviour
 
     public void Quit()
     {
-        Application.Quit(); //Erst bei der Exe Datei ausfï¿½hrbar
+        Application.Quit();                 //Erst bei der Exe Datei ausführbar
         Debug.Log("Quitting Game...");
     }
 }
