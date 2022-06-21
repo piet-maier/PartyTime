@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 633360383, guid: ef80d82da708a4de0a59fcfb81f37747, type: 3}
+  m_Sprite: {fileID: 214294512, guid: 982274bb721f44e7baf22e10e4738191, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -108,7 +108,6 @@ MonoBehaviour:
   playerName: 
   healtbar: {fileID: 0}
   target: {fileID: 0}
-  sM: {fileID: 0}
 --- !u!95 &92723944885299126
 Animator:
   serializedVersion: 4
