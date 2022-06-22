@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -5,11 +6,15 @@ using UnityEngine.UI;
 public class PlayerScript : MonoBehaviour
 {
     public float movementSpeed = 1;
-    public int health;
+    public float health;
+    public float maxHealth;
     public float attackRange;
-    public int damage;
+    public float damage;
     public int highscore;
     public string playerName;
+
+    public GameObject healthBarUI;
+    public Slider slider;
     
     // Movement
     private Rigidbody2D _rigidbody;
@@ -22,15 +27,20 @@ public class PlayerScript : MonoBehaviour
     
     private SpriteRenderer _renderer;
 
-    public GameObject healtbar;
+    //public GameObject healtbar;
 
-    private float distToTarget;
+    public float distToTarget;
 
     public Transform target;
+    public bool isHitCD;
+    public float hitCD;
 
     // This method is called once at the start of the game.
     public void Start()
     {
+        maxHealth = health;
+        slider.value = CalculateHealth();
+
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _renderer = GetComponent<SpriteRenderer>();
@@ -41,14 +51,27 @@ public class PlayerScript : MonoBehaviour
     // This method is called once per frame.
     public void Update()
     {
+
+        slider.value = CalculateHealth();
+
+        if (health < maxHealth)
+            healthBarUI.SetActive(true);
+        else
+            healthBarUI.SetActive(false);
+
+        if (health > maxHealth)
+            health = maxHealth;
+
         Move();
         
-        if (Input.GetButton("Fire1"))
+        if (Input.GetButton("Fire1") && !isHitCD)
         {
             Attack();
+            StartCoroutine(StartCooldown());
+
         }
         
-        HealthbarUpdate();
+        //HealthbarUpdate();
        
         if (health <= 0)
         {
@@ -58,7 +81,12 @@ public class PlayerScript : MonoBehaviour
         if (target != null)
             distToTarget = Vector2.Distance(transform.position, target.position);
     }
-    
+
+    private float CalculateHealth()
+    {
+        return health / maxHealth;
+    }
+
     // This method does not depend on the frame rate, so it should be used for calculations related to physics.
     public void FixedUpdate()
     {
@@ -87,16 +115,27 @@ public class PlayerScript : MonoBehaviour
         };
     }
     
-    private void Attack()
-    {
-        // Toggle Attack Animation
-        _animator.SetTrigger(_attack);
-        
+    public void Attack()
+    {  
         if (target != null & distToTarget < attackRange)
+        {
+            isHitCD = true;
+            // Toggle Attack Animation
+            _animator.SetTrigger(_attack);
+
             target.GetComponent<NpcController>().Damage(damage);
+        }
+
+
     }
 
- 
+    public IEnumerator StartCooldown()
+    {
+        yield return new WaitForSeconds(hitCD);
+        isHitCD = false;
+    }
+
+
     public void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("NPC"))
@@ -112,7 +151,7 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    public void Damage(int dmg)
+    public void Damage(float dmg)
     {
         if (health > 0)
             health -= dmg;
@@ -120,10 +159,10 @@ public class PlayerScript : MonoBehaviour
             Die();
     }
 
-    public void HealthbarUpdate()
-    {
-        healtbar.GetComponent<Text>().text = health + "";
-    }
+    //public void HealthbarUpdate()
+    //{
+    //    healtbar.GetComponent<Text>().text = health + "";
+    //}
 
     public void Die()
     {

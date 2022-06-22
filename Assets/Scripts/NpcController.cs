@@ -1,12 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NpcController : MonoBehaviour
 {
     public NPC npc;
 
-    public int health;
+    public float health;
+    public float maxHealth;
+
+    public GameObject healthBarUI;
+    public Slider slider;
 
     internal Transform thisTransform;
 
@@ -37,18 +42,19 @@ public class NpcController : MonoBehaviour
 
     public float hitCD;
 
-    public int damage;
+    public float damage;
 
     public float attackRange;
 
     public int scoreValue;
 
-    private Animator animator;
 
     // Use this for initialization
     public void Start()
     {
-        health = npc.health;
+        maxHealth = npc.health;
+        health = maxHealth;
+        slider.value = CalculateHealth();
         moveSpeed = npc.speed;
         aggroRange = npc.aggroRange;
         attackRange = npc.attackRange;
@@ -58,8 +64,6 @@ public class NpcController : MonoBehaviour
 
         if ((GameObject.FindGameObjectsWithTag("spawnArea") != null))
             connectedSpawnArea = GetComponentInParent<NPCSpawn>().gameObject;
-
-        animator = gameObject.GetComponent<Animator>();
 
         _rigidbody = this.GetComponent<Rigidbody2D>();
 
@@ -75,6 +79,17 @@ public class NpcController : MonoBehaviour
 
     public void Update()
     {
+        slider.value = CalculateHealth();
+
+        if(health < maxHealth)
+            healthBarUI.SetActive(true);
+        else
+            healthBarUI.SetActive(false);
+
+        if (health > maxHealth)
+            health = maxHealth;
+        
+
         if(health <= 0)
         {
             if(target != null)
@@ -112,6 +127,11 @@ public class NpcController : MonoBehaviour
                 Attack();
             }
         }
+    }
+
+    private float CalculateHealth()
+    {
+        return health / maxHealth;
     }
 
     public void Attack()
@@ -223,13 +243,16 @@ public class NpcController : MonoBehaviour
         isChasing = false;
     }
 
-    public void Damage(int dmg)
+    public void Damage(float dmg)
     {
         if (health > 0)
         {
             health -= dmg;
         }
     }
+
+
+
 
     public int GetScoreValue()
     {

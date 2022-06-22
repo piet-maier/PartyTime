@@ -8,18 +8,14 @@ public class NPC : ScriptableObject
     public Transform transform;
     public new string name;
     public string category;
-    public int health;
-    public int damage;
+    public float health;
+    public float damage;
     public int level;
     public int scoreValue;
     public float speed;
-    public float spawnTime;
     public float hitCD;
     public float aggroRange;
     public float attackRange;
-    
-
-    public int counter;
 
     public Sprite sprite;
 
