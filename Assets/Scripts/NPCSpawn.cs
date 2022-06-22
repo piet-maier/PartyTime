@@ -4,37 +4,29 @@ using UnityEngine;
 
 public class NPCSpawn : MonoBehaviour
 {
-    public GameObject[] npcPrefabs;
+    public GameObject npcPrefabs;
 
     public float spawnTime;
 
     public int npcsAlive;
+    public int maxNpcs;
 
     public bool isSpawning;
 
     public void Start()
     {
-        for (int i = 0; i < npcPrefabs.Length; i++)
-        {
-            var npc = Instantiate(npcPrefabs[i]);
-            npc.transform.SetParent(gameObject.transform);
-            npcsAlive++;
-
-        }
+        isSpawning = false;
     }
 
     public void Update()
     {
-        if(npcsAlive < npcPrefabs.Length && !isSpawning)
-        {
-            for (int i = 0; i < npcPrefabs.Length; i++)
-            {     
-                var npc = Instantiate(npcPrefabs[i]);
-                npc.transform.SetParent(gameObject.transform);
-                npcsAlive++;
-                StartCoroutine(StartCooldown());
 
-            }
+        if (!isSpawning && npcsAlive < maxNpcs)
+        {
+            StartCoroutine(StartCooldown());
+            var npc = Instantiate(npcPrefabs);
+            npc.transform.SetParent(gameObject.transform);
+            npcsAlive++;
         }
     }
     public IEnumerator StartCooldown()
