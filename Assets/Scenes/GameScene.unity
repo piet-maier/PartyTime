@@ -4423,8 +4423,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19197384751b74cc5b28c323e09f730d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 1927155015}
   worldSize: {x: 3.2, y: 1.92, z: 0}
-  nodeRadius: 0.8
+  nodeRadius: 0.08
   obstacles:
   - {fileID: 456665018}
   - {fileID: 1512825576}
