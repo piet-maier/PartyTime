@@ -9,7 +9,7 @@ public class NPC : ScriptableObject
     public new string name;
     public string category;
     public float health;
-    public float damage;
+    public int damage;
     public int level;
     public int scoreValue;
     public float speed;

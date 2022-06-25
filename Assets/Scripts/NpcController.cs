@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+
 
 public class NpcController : MonoBehaviour
 {
@@ -42,11 +44,15 @@ public class NpcController : MonoBehaviour
 
     public float hitCD;
 
-    public float damage;
+    public int damage;
 
     public float attackRange;
 
     public int scoreValue;
+
+    public GameObject damagePopUp;
+
+
 
 
     // Use this for initialization
@@ -62,7 +68,9 @@ public class NpcController : MonoBehaviour
         damage = npc.damage;
         hitCD = npc.hitCD;
 
-        if ((GameObject.FindGameObjectsWithTag("spawnArea") != null))
+
+
+        if (GameObject.FindGameObjectsWithTag("spawnArea") != null)
             connectedSpawnArea = GetComponentInParent<NPCSpawn>().gameObject;
 
         _rigidbody = this.GetComponent<Rigidbody2D>();
@@ -129,6 +137,8 @@ public class NpcController : MonoBehaviour
         }
     }
 
+
+
     private float CalculateHealth()
     {
         return health / maxHealth;
@@ -136,16 +146,8 @@ public class NpcController : MonoBehaviour
 
     public void Attack()
     {
-
-        //animator.SetBool("attack", true);
-        //animator.SetBool("idle", false);
-        //animator.SetBool("run", false);
-
-        target.GetComponent<PlayerScript>().Damage(damage);
-
-
+        target.GetComponent<PlayerScript>().Damage(Random.Range(0, damage));
         StartCoroutine(StartCooldown());
-
     }
 
     public IEnumerator StartCooldown()
@@ -171,11 +173,6 @@ public class NpcController : MonoBehaviour
     public void Movement()
     {
         // Move the object in the chosen direction at the set speed
-        //animator.SetBool("idle", false);
-        //animator.SetBool("run", true);
-
-        //animator.SetBool("attack", false);
-
         _rigidbody.MovePosition(_rigidbody.position + Time.deltaTime * moveSpeed * moveDirections[currentMoveDirection].normalized);
 
         //thisTransform.position += moveDirections[currentMoveDirection] * Time.deltaTime * moveSpeed;
@@ -185,7 +182,6 @@ public class NpcController : MonoBehaviour
             //animator.SetBool("attack", false);
             //animator.SetBool("run", false);
             //animator.SetBool("idle", true);
-
         }
 
         if (decisionTimeCount > 0)
@@ -196,9 +192,6 @@ public class NpcController : MonoBehaviour
         {
             // Choose a random time delay for taking a decision ( changing direction, or standing in place for a while )
             decisionTimeCount = Random.Range(decisionTime.x, decisionTime.y);
-
-
-
 
             // Choose a movement direction, or stay in place
             ChooseMoveDirection();
@@ -215,14 +208,8 @@ public class NpcController : MonoBehaviour
     {
         if (target != null)
         {
-            //animator.SetBool("run", true);
-            //animator.SetBool("idle", false);
-            //animator.SetBool("attack", false);
             //transform.position = Vector2.MoveTowards(transform.position, target.transform.position, moveSpeed * Time.deltaTime);
-
             _rigidbody.MovePosition(_rigidbody.position + (target.position - _rigidbody.position).normalized * Time.deltaTime * moveSpeed);
-
-            
         }
 
         //rb.MovePosition((Vector2)transform.position + (direction * npc.speed * Time.deltaTime));
@@ -243,22 +230,29 @@ public class NpcController : MonoBehaviour
         isChasing = false;
     }
 
-    public void Damage(float dmg)
+    public void Damage(int dmg)
     {
+        if(dmg > 0)
+        {
+            GameObject damage = Instantiate(damagePopUp, transform.position, Quaternion.identity) as GameObject;
+            damage.transform.GetChild(0).GetComponent<TextMeshPro>().text = dmg.ToString();
+            //_rigidbody.AddForce(Vector2.right * gameObject.transform.localScale * 300); //knockback
+        }
+        else
+        {
+            GameObject damage = Instantiate(damagePopUp, transform.position, Quaternion.identity) as GameObject;
+            damage.transform.GetChild(0).GetComponent<TextMeshPro>().text = "MISSED";
+        } 
         if (health > 0)
         {
             health -= dmg;
         }
     }
 
-
-
-
     public int GetScoreValue()
     {
         return scoreValue;
     }
-
 
     public void Die()
     {

@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -9,7 +10,7 @@ public class PlayerScript : MonoBehaviour
     public float health;
     public float maxHealth;
     public float attackRange;
-    public float damage;
+    public int damage;
     public int highscore;
     public string playerName;
 
@@ -35,6 +36,11 @@ public class PlayerScript : MonoBehaviour
     public bool isHitCD;
     public float hitCD;
 
+    public bool isHandUsed;
+    public bool isAttack;
+
+    public GameObject damagePopUp;
+
     // This method is called once at the start of the game.
     public void Start()
     {
@@ -45,13 +51,14 @@ public class PlayerScript : MonoBehaviour
         _animator = GetComponent<Animator>();
         _renderer = GetComponent<SpriteRenderer>();
 
+       
+
         playerName = "Dummy";
     }
 
     // This method is called once per frame.
     public void Update()
     {
-
         slider.value = CalculateHealth();
 
         if (health < maxHealth)
@@ -64,11 +71,22 @@ public class PlayerScript : MonoBehaviour
 
         Move();
         
-        if (Input.GetButton("Fire1") && !isHitCD)
+        if (Input.GetButtonDown("Fire1") && isHandUsed && !isAttack)
         {
-            Attack();
-            StartCoroutine(StartCooldown());
+            if(!isAttack)
+            {
+                isAttack = true;
+                // Toggle Attack Animation
+                _animator.SetTrigger(_attack);
+                StartCoroutine(StartCooldown());
 
+            }
+            if (target != null && distToTarget < attackRange && !isHitCD)
+            {
+                Attack();
+                StartCoroutine(StartCooldown());
+
+            }
         }
         
         //HealthbarUpdate();
@@ -116,23 +134,17 @@ public class PlayerScript : MonoBehaviour
     }
     
     public void Attack()
-    {  
-        if (target != null & distToTarget < attackRange)
-        {
-            isHitCD = true;
-            // Toggle Attack Animation
-            _animator.SetTrigger(_attack);
+    {
+        isHitCD = true;
 
-            target.GetComponent<NpcController>().Damage(damage);
-        }
-
-
+        target.GetComponent<NpcController>().Damage(Random.Range(0, damage));
     }
 
     public IEnumerator StartCooldown()
     {
         yield return new WaitForSeconds(hitCD);
         isHitCD = false;
+        isAttack = false;
     }
 
 
@@ -151,8 +163,21 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    public void Damage(float dmg)
+    public void Damage(int dmg)
     {
+       
+
+        if (dmg > 0)
+        {
+            GameObject damage = Instantiate(damagePopUp, transform.position, Quaternion.identity) as GameObject;
+            damage.transform.GetChild(0).GetComponent<TextMeshPro>().text = dmg.ToString();
+        }
+        else
+        {
+            GameObject damage = Instantiate(damagePopUp, transform.position, Quaternion.identity) as GameObject;
+            damage.transform.GetChild(0).GetComponent<TextMeshPro>().text = "MISSED";
+        }
+
         if (health > 0)
             health -= dmg;
         else
@@ -166,8 +191,9 @@ public class PlayerScript : MonoBehaviour
 
     public void Die()
     {
-        SceneManager.LoadScene("GameOverScene");
         Destroy(gameObject);
-        
+        SceneManager.LoadScene("GameOverScene");
+        //DontDestroyOnLoad(this.gameObject); 
+ 
     }
 }

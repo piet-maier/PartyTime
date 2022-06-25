@@ -12,6 +12,7 @@ namespace AStar
         public void Awake()
         {
             _grid = GetComponent<Grid>();
+            
         }
 
         public void Update()

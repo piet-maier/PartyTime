@@ -397,6 +397,7 @@ GameObject:
   - component: {fileID: 1128256881}
   - component: {fileID: 1128256880}
   - component: {fileID: 1128256884}
+  - component: {fileID: 1128256885}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -501,8 +502,20 @@ MonoBehaviour:
   mainMenu: {fileID: 0}
   optionMenu: {fileID: 0}
   highscoreMenu: {fileID: 0}
-  highscore: {fileID: 1548327036}
-  playerName: {fileID: 1903652090}
+--- !u!114 &1128256885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1128256879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3b10bf165068514ba4b1cea47f6bb22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highscoreDisplay: {fileID: 1548327036}
+  nameDisplay: {fileID: 1903652090}
 --- !u!1 &1383101145
 GameObject:
   m_ObjectHideFlags: 0
@@ -772,8 +785,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4280079872
-  m_fontColor: {r: 0, g: 0.8396226, b: 0.110551305, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1118,8 +1131,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278255462
+  m_fontColor: {r: 0.39917707, g: 1, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

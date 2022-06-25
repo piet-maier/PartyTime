@@ -12,7 +12,6 @@ public class ItemController : MonoBehaviour
     public bool isHandUsed;
 
     public GameObject itemContainer;
-    public GameObject itemInHand;
 
     public GameObject player;
 
@@ -76,11 +75,13 @@ public class ItemController : MonoBehaviour
         gameObject.GetComponent<Floating>().enabled = false;
         gameObject.transform.parent = itemContainer.transform;
         gameObject.transform.position = player.transform.position;
-        gameObject.GetComponent<SpriteRenderer>().sprite = item.itemSprite;
-        gameObject.name = item.name;
-        
+        gameObject.GetComponent<SpriteRenderer>().sprite = null;
+
+        player.GetComponent<PlayerScript>().isHandUsed = true;
+
         Debug.Log("picked up");
         isHandUsed = true;
+        
 
 
     }
@@ -92,6 +93,9 @@ public class ItemController : MonoBehaviour
         gameObject.transform.position = player.transform.position;
         gameObject.GetComponent<Floating>().enabled = true;
         gameObject.GetComponent<Floating>().posOffset = player.transform.position;
+        gameObject.GetComponent<SpriteRenderer>().sprite = item.itemSprite;
+
+        player.GetComponent<PlayerScript>().isHandUsed = false;
 
         isHandUsed = false;
     }

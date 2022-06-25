@@ -15,14 +15,12 @@ MonoBehaviour:
   transform: {fileID: 0}
   name: Ghul
   category: Zombie
-  health: 10
-  damage: 1
+  health: 20
+  damage: 3
   level: 1
   scoreValue: 2
-  speed: 3
-  spawnTime: 2
+  speed: 1
   hitCD: 2
   aggroRange: 1
   attackRange: 0.1
-  counter: 0
   sprite: {fileID: 21300000, guid: f921e96375dadb04ab7c12bcff339513, type: 3}
