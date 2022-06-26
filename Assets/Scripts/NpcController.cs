@@ -52,6 +52,10 @@ public class NpcController : MonoBehaviour
 
     public GameObject damagePopUp;
 
+    public SpriteRenderer spriterenderer;
+
+    public Sprite sprite;
+
 
     private void Awake()
     {
@@ -70,6 +74,9 @@ public class NpcController : MonoBehaviour
         scoreValue = npc.scoreValue;
         damage = npc.damage;
         hitCD = npc.hitCD;
+        sprite = npc.sprite;
+
+        spriterenderer = GetComponent<SpriteRenderer>();
 
         if (GameObject.FindGameObjectsWithTag("spawnArea") != null)
             connectedSpawnArea = GetComponentInParent<NPCSpawn>().gameObject;
@@ -88,6 +95,7 @@ public class NpcController : MonoBehaviour
 
     public void Update()
     {
+
         slider.value = CalculateHealth();
 
         if(health < maxHealth)
@@ -157,6 +165,12 @@ public class NpcController : MonoBehaviour
         yield return new WaitForSeconds(hitCD);
         isHitCD = false;
     }
+    public IEnumerator FlashDamage()
+    {
+        spriterenderer.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        spriterenderer.color = Color.white;
+    }
 
     public void Direction()
     {
@@ -210,7 +224,7 @@ public class NpcController : MonoBehaviour
         if (target != null)
         {
             var path = GetComponent<AStar.Grid>().Path;
-            if(path.Count != 0)
+            if(path != null && path.Count != 0)
             {
                 var target = new Vector2(path[0].WorldPosition.x, path[0].WorldPosition.y);
                 _rigidbody.MovePosition(_rigidbody.position + moveSpeed * Time.deltaTime * (target - _rigidbody.position).normalized);
@@ -227,6 +241,7 @@ public class NpcController : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             target = collision.gameObject.GetComponent<Rigidbody2D>();
+            StartCoroutine(FlashDamage());
         }
     }
 
@@ -237,13 +252,17 @@ public class NpcController : MonoBehaviour
         isChasing = false;
     }
 
+
+
+
+
     public void Damage(int dmg)
     {
         if(dmg > 0)
         {
             GameObject damage = Instantiate(damagePopUp, transform.position, Quaternion.identity) as GameObject;
             damage.transform.GetChild(0).GetComponent<TextMeshPro>().text = dmg.ToString();
-            //_rigidbody.AddForce(Vector2.right * gameObject.transform.localScale * 300); //knockback
+            _rigidbody.AddForce(Vector2.right * gameObject.transform.localScale * 300); //knockback
         }
         else
         {

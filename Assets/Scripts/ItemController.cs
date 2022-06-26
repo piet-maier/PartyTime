@@ -73,6 +73,7 @@ public class ItemController : MonoBehaviour
     public void PickUpItem()
     {
         gameObject.GetComponent<Floating>().enabled = false;
+        gameObject.GetComponent<Collider2D>().enabled = false;
         gameObject.transform.parent = itemContainer.transform;
         gameObject.transform.position = player.transform.position;
         gameObject.GetComponent<SpriteRenderer>().sprite = null;
