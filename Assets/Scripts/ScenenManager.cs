@@ -55,4 +55,9 @@ public class ScenenManager : MonoBehaviour
         Application.Quit();                 //Erst bei der Exe Datei ausführbar
         Debug.Log("Quitting Game...");
     }
+
+    public void LoadNextScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
 }

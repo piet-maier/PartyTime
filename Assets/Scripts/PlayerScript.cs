@@ -41,6 +41,8 @@ public class PlayerScript : MonoBehaviour
 
     public GameObject damagePopUp;
 
+    public GameObject scenenmanger;
+
     // This method is called once at the start of the game.
     public void Start()
     {
@@ -50,6 +52,8 @@ public class PlayerScript : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _renderer = GetComponent<SpriteRenderer>();
+
+        
 
        
 
@@ -194,7 +198,5 @@ public class PlayerScript : MonoBehaviour
     {
         Destroy(gameObject);
         SceneManager.LoadScene("GameOverScene");
-        //DontDestroyOnLoad(this.gameObject); 
- 
     }
 }
