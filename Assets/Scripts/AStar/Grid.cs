@@ -6,13 +6,16 @@ namespace AStar
 {
     public class Grid : MonoBehaviour
     {
-        public Transform player;
+        private static Transform _player;
+
+        // Unity Grid Position (Center)
+        public Vector3 worldPosition;
         
         // Unity Grid Size (Multiple of 2 * Cell Size)
         public Vector3 worldSize;
 
         // Unity Grid -> Cell Size / 2
-        public float nodeRadius;
+        public float nodeRadius = 0.08F;
 
         // Obstacle Tile Maps
         public Tilemap[] obstacles;
@@ -27,10 +30,17 @@ namespace AStar
         // This method is called once at the start of the game.
         public void Start()
         {
+            _player = GameObject.FindWithTag("Player").GetComponent<Transform>();
+            
             _sizeX = Mathf.RoundToInt(worldSize.x / (2 * nodeRadius));
             _sizeY = Mathf.RoundToInt(worldSize.y / (2 * nodeRadius));
 
             CreateGrid();
+        }
+
+        public void Update()
+        {
+            PathFinding.FindPath(this, transform.position, _player.position);
         }
 
         // Initialize Grid & Check Obstacles
@@ -39,7 +49,7 @@ namespace AStar
             _nodes = new Node[_sizeX, _sizeY];
 
             // Bottom Left Grid Corner
-            var corner = transform.position + Vector3.left * worldSize.x / 2 + Vector3.down * worldSize.y / 2;
+            var corner = worldPosition + Vector3.left * worldSize.x / 2 + Vector3.down * worldSize.y / 2;
 
             for (var i = 0; i < _sizeX; i++)
             {
@@ -63,10 +73,10 @@ namespace AStar
         }
 
         // World Coordinate -> Node
-        public Node WorldToNode(Vector3 worldPosition)
+        public Node WorldToNode(Vector3 position)
         {
-            var percentX = Mathf.Clamp01((worldPosition.x + worldSize.x / 2) / worldSize.x);
-            var percentY = Mathf.Clamp01((worldPosition.y + worldSize.y / 2) / worldSize.y);
+            var percentX = Mathf.Clamp01((position.x + worldSize.x / 2) / worldSize.x);
+            var percentY = Mathf.Clamp01((position.y + worldSize.y / 2) / worldSize.y);
             var x = Mathf.RoundToInt((_sizeX - 1) * percentX);
             var y = Mathf.RoundToInt((_sizeY - 1) * percentY);
             return _nodes[x, y];
@@ -96,10 +106,10 @@ namespace AStar
         {
             Gizmos.color = Color.red;
             // Outline Grid in Scene View
-            Gizmos.DrawWireCube(transform.position, worldSize);
+            Gizmos.DrawWireCube(worldPosition, worldSize);
             
             if (_nodes == null) return;
-            var playerPosition = WorldToNode(player.position + Vector3.down * 2 * nodeRadius);
+            var playerPosition = WorldToNode(_player.position + Vector3.down * 2 * nodeRadius);
             
             // Draw Nodes in Scene View
             foreach (var node in _nodes)

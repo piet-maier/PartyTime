@@ -3,27 +3,13 @@ using UnityEngine;
 
 namespace AStar
 {
-    public class PathFinding : MonoBehaviour
+    public static class PathFinding
     {
-        public Transform start, goal;
-
-        private Grid _grid;
-
-        public void Awake()
-        {
-            _grid = GetComponent<Grid>();
-        }
-
-        public void Update()
-        {
-            FindPath(start.position, goal.position);
-        }
-
         // A* Implementation
-        private void FindPath(Vector3 worldStart, Vector3 worldGoal)
+        public static void FindPath(Grid grid, Vector3 worldStart, Vector3 worldGoal)
         {
-            var startNode = _grid.WorldToNode(worldStart);
-            var goalNode = _grid.WorldToNode(worldGoal);
+            var startNode = grid.WorldToNode(worldStart);
+            var goalNode = grid.WorldToNode(worldGoal);
 
             var open = new List<Node>();
             var closed = new HashSet<Node>();
@@ -45,11 +31,11 @@ namespace AStar
 
                 if (current == goalNode)
                 {
-                    Retrace(startNode, goalNode);
+                    Retrace(grid, startNode, goalNode);
                     return;
                 }
 
-                foreach (var neighbour in _grid.GetNeighbours(current))
+                foreach (var neighbour in grid.GetNeighbours(current))
                 {
                     if (neighbour.IsObstacle || closed.Contains(neighbour)) continue;
                     var newCost = current.GCost + Distance(current, neighbour);
@@ -72,7 +58,7 @@ namespace AStar
             return 14 * distanceY + 10 * (distanceX - distanceY);
         }
 
-        private void Retrace(Node startNode, Node goalNode)
+        private static void Retrace(Grid grid, Node startNode, Node goalNode)
         {
             var path = new List<Node>();
             var current = goalNode;
@@ -85,7 +71,7 @@ namespace AStar
 
             path.Reverse();
 
-            _grid.Path = path;
+            grid.Path = path;
         }
     }
 }
