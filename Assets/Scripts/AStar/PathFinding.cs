@@ -6,13 +6,12 @@ namespace AStar
     public class PathFinding : MonoBehaviour
     {
         public Transform start, goal;
-        
+
         private Grid _grid;
 
         public void Awake()
         {
             _grid = GetComponent<Grid>();
-            
         }
 
         public void Update()
@@ -21,15 +20,15 @@ namespace AStar
         }
 
         // A* Implementation
-        public void FindPath(Vector3 worldStart, Vector3 worldGoal)
+        private void FindPath(Vector3 worldStart, Vector3 worldGoal)
         {
-            var start = _grid.WorldToNode(worldStart);
-            var goal = _grid.WorldToNode(worldGoal);
+            var startNode = _grid.WorldToNode(worldStart);
+            var goalNode = _grid.WorldToNode(worldGoal);
 
             var open = new List<Node>();
             var closed = new HashSet<Node>();
 
-            open.Add(start);
+            open.Add(startNode);
 
             while (open.Count != 0)
             {
@@ -44,9 +43,9 @@ namespace AStar
                 open.Remove(current);
                 closed.Add(current);
 
-                if (current == goal)
+                if (current == goalNode)
                 {
-                    Retrace(start, goal);
+                    Retrace(startNode, goalNode);
                     return;
                 }
 
@@ -57,9 +56,9 @@ namespace AStar
 
                     if (newCost >= current.GCost && open.Contains(neighbour)) continue;
                     neighbour.GCost = newCost;
-                    neighbour.HCost = Distance(neighbour, goal);
+                    neighbour.HCost = Distance(neighbour, goalNode);
                     neighbour.Previous = current;
-                        
+
                     if (!open.Contains(neighbour)) open.Add(neighbour);
                 }
             }
@@ -73,17 +72,17 @@ namespace AStar
             return 14 * distanceY + 10 * (distanceX - distanceY);
         }
 
-        private void Retrace(Node start, Node goal)
+        private void Retrace(Node startNode, Node goalNode)
         {
             var path = new List<Node>();
-            var current = goal;
+            var current = goalNode;
 
-            while (current != start)
+            while (current != startNode)
             {
                 path.Add(current);
                 current = current.Previous;
             }
-            
+
             path.Reverse();
 
             _grid.Path = path;
