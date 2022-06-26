@@ -394,6 +394,7 @@ GameObject:
   - component: {fileID: 6384326425304819727}
   - component: {fileID: 2460879583837991380}
   - component: {fileID: 6589753023713616042}
+  - component: {fileID: 4641152987564061809}
   m_Layer: 0
   m_Name: Ghul
   m_TagString: NPC
@@ -410,8 +411,8 @@ RectTransform:
   m_GameObject: {fileID: 6384326425304819721}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5234735577921745506}
   - {fileID: 2791172771160840857}
@@ -499,7 +500,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: f921e96375dadb04ab7c12bcff339513, type: 3}
+  m_Sprite: {fileID: -45630359, guid: 1e908cc3eb281314e99f740fd524f871, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -573,6 +574,26 @@ CapsuleCollider2D:
   m_Offset: {x: -0.025054932, y: -0.06460571}
   m_Size: {x: 0.11328125, y: 0.3317871}
   m_Direction: 0
+--- !u!95 &4641152987564061809
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6384326425304819721}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 69817979e5ebedc46be3f75a8a6ec86c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &7916830689543689072
 GameObject:
   m_ObjectHideFlags: 0
