@@ -83,8 +83,8 @@ public class PlayerScript : MonoBehaviour
             }
             if (target != null && distToTarget < attackRange && !isHitCD)
             {
-                Attack();
-                StartCoroutine(StartCooldown());
+                //Attack();
+                //StartCoroutine(StartCooldown());
 
             }
         }
@@ -133,12 +133,12 @@ public class PlayerScript : MonoBehaviour
         };
     }
     
-    public void Attack()
-    {
-        isHitCD = true;
+    //public void Attack()
+    //{
+    //    isHitCD = true;
 
-        target.GetComponent<NpcController>().Damage(Random.Range(0, damage));
-    }
+    //    target.GetComponent<NpcController>().Damage(Random.Range(0, damage));
+    //}
 
     public IEnumerator StartCooldown()
     {
@@ -150,9 +150,12 @@ public class PlayerScript : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
+        
+
         if (collision.CompareTag("NPC"))
         {
             target = collision.gameObject.transform;
+            collision.GetComponent<NpcController>().Damage(Random.Range(0, damage));
         }
     }
     public void OnTriggerExit2D(Collider2D collision)
@@ -165,18 +168,16 @@ public class PlayerScript : MonoBehaviour
 
     public void Damage(int dmg)
     {
-       
-
-        if (dmg > 0)
-        {
-            GameObject damage = Instantiate(damagePopUp, transform.position, Quaternion.identity) as GameObject;
-            damage.transform.GetChild(0).GetComponent<TextMeshPro>().text = dmg.ToString();
-        }
-        else
-        {
-            GameObject damage = Instantiate(damagePopUp, transform.position, Quaternion.identity) as GameObject;
-            damage.transform.GetChild(0).GetComponent<TextMeshPro>().text = "MISSED";
-        }
+        //if (dmg > 0)
+        //{
+        //    GameObject damage = Instantiate(damagePopUp, transform.position, Quaternion.identity) as GameObject;
+        //    damage.transform.GetChild(0).GetComponent<TextMeshPro>().text = dmg.ToString();
+        //}
+        //else
+        //{
+        //    GameObject damage = Instantiate(damagePopUp, transform.position, Quaternion.identity) as GameObject;
+        //    damage.transform.GetChild(0).GetComponent<TextMeshPro>().text = "MISSED";
+        //}
 
         if (health > 0)
             health -= dmg;

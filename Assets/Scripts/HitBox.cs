@@ -25,7 +25,7 @@ public class HitBox : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D col)
     {
-        Debug.Log("The player hit something.");
+        //Debug.Log("The player hit something.");
     }
 
     public void SetHitBox(HitBoxes box)

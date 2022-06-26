@@ -41,6 +41,7 @@ namespace AStar
         public void Update()
         {
             PathFinding.FindPath(this, transform.position, _player.position);
+            //gameObject.GetComponentInChildren<Transform>().Find("Position").transform.position
         }
 
         // Initialize Grid & Check Obstacles
