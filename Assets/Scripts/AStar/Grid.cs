@@ -15,7 +15,7 @@ namespace AStar
         public Vector3 worldSize;
 
         // Unity Grid -> Cell Size / 2
-        public float nodeRadius = 0.08F;
+        public float nodeRadius = 0.02F;
 
         // Obstacle Tile Maps
         public Tilemap[] obstacles;
@@ -119,7 +119,9 @@ namespace AStar
                 // Path = Black
                 else if (Path.Contains(node)) Gizmos.color = Color.black;
                 // Obstacles = Red
-                else Gizmos.color = node.IsObstacle ? Color.red : Color.white;
+                else if (node.IsObstacle) Gizmos.color = Color.red;
+
+                else continue;
                 
                 Gizmos.DrawCube(node.WorldPosition, Vector3.one * nodeRadius);
             }

@@ -154,7 +154,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 909759787}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!483693784 &103799604
 TilemapRenderer:
@@ -462,7 +462,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 909759787}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!483693784 &396159202
 TilemapRenderer:
@@ -2667,7 +2667,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 909759787}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!19719996 &456665016
 TilemapCollider2D:
@@ -3736,7 +3736,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 909759787}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!19719996 &489615846
 TilemapCollider2D:
@@ -4209,7 +4209,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 909759787}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!19719996 &553226042
 TilemapCollider2D:
@@ -4484,73 +4484,6 @@ Transform:
   m_Father: {fileID: 1927155015}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &877417384
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 877417385}
-  - component: {fileID: 877417386}
-  - component: {fileID: 877417387}
-  m_Layer: 0
-  m_Name: AStar
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &877417385
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 877417384}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 909759787}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &877417386
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 877417384}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19197384751b74cc5b28c323e09f730d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 1927155015}
-  worldSize: {x: 3.2, y: 1.92, z: 0}
-  nodeRadius: 0.08
-  obstacles:
-  - {fileID: 456665018}
-  - {fileID: 1512825576}
-  - {fileID: 489615848}
-  - {fileID: 553226044}
---- !u!114 &877417387
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 877417384}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e01d9fdf2aca441bbcabd667051c4ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  start: {fileID: 1127867724}
-  goal: {fileID: 1927155015}
 --- !u!1 &909759785
 GameObject:
   m_ObjectHideFlags: 0
@@ -4592,7 +4525,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 877417385}
   - {fileID: 456665015}
   - {fileID: 396159201}
   - {fileID: 103799603}
@@ -4702,11 +4634,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!224 &1127867724 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8257991183875494925, guid: 7103c81229d118f4c87acf8a9d87bbd8, type: 3}
-  m_PrefabInstance: {fileID: 710481114}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1162962566
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4896,7 +4823,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 909759787}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!19719996 &1512825574
 TilemapCollider2D:
@@ -5847,8 +5774,15 @@ MonoBehaviour:
   npcPrefabs: {fileID: 6384326425304819721, guid: 7103c81229d118f4c87acf8a9d87bbd8, type: 3}
   spawnTime: 5
   npcsAlive: 0
-  maxNpcs: 1
+  maxNpcs: 2
   isSpawning: 0
+  worldSize: {x: 3.2, y: 1.92, z: 0}
+  worldPosition: {x: 0, y: 0, z: 0}
+  obstacles:
+  - {fileID: 456665018}
+  - {fileID: 1512825576}
+  - {fileID: 489615848}
+  - {fileID: 553226044}
 --- !u!4 &2096185964
 Transform:
   m_ObjectHideFlags: 0

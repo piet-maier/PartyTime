@@ -208,8 +208,14 @@ public class NpcController : MonoBehaviour
     {
         if (target != null)
         {
+            var path = GetComponent<AStar.Grid>().Path;
+            if(path.Count != 0)
+            {
+                var target = new Vector2(path[0].WorldPosition.x, path[0].WorldPosition.y);
+                _rigidbody.MovePosition(_rigidbody.position + moveSpeed * Time.deltaTime * (target - _rigidbody.position).normalized);
+            }
             //transform.position = Vector2.MoveTowards(transform.position, target.transform.position, moveSpeed * Time.deltaTime);
-            _rigidbody.MovePosition(_rigidbody.position + (target.position - _rigidbody.position).normalized * Time.deltaTime * moveSpeed);
+           
         }
 
         //rb.MovePosition((Vector2)transform.position + (direction * npc.speed * Time.deltaTime));

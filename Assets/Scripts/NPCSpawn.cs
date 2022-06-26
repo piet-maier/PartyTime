@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class NPCSpawn : MonoBehaviour
 {
@@ -12,6 +13,11 @@ public class NPCSpawn : MonoBehaviour
     public int maxNpcs;
 
     public bool isSpawning;
+
+    public Vector3 worldSize;
+    public Vector3 worldPosition;
+    public Tilemap[] obstacles;
+
 
     public void Start()
     {
@@ -25,6 +31,12 @@ public class NPCSpawn : MonoBehaviour
         {
             StartCoroutine(StartCooldown());
             var npc = Instantiate(npcPrefabs);
+
+            var grid = npc.AddComponent<AStar.Grid>();
+            grid.worldPosition = worldPosition;
+            grid.worldSize = worldSize;
+            grid.obstacles = obstacles;
+
             npc.transform.SetParent(gameObject.transform);
             npcsAlive++;
         }
