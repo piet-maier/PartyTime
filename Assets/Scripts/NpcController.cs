@@ -56,6 +56,10 @@ public class NpcController : MonoBehaviour
 
     public Sprite sprite;
 
+    private Animator _animator;
+    private readonly int _isMoving = Animator.StringToHash("IsWalking");
+    private readonly int _attack = Animator.StringToHash("Attack"); 
+
     public bool left;
     public bool right;
 
@@ -94,6 +98,8 @@ public class NpcController : MonoBehaviour
 
         // Choose a movement direction, or stay in place
         ChooseMoveDirection();
+
+        _animator = GetComponent<Animator>();
     }
 
     public void Update()
@@ -158,8 +164,11 @@ public class NpcController : MonoBehaviour
 
     public void Attack()
     {
+        
+        _animator.SetTrigger(_attack);
         target.GetComponent<PlayerScript>().Damage(Random.Range(0, damage));
         StartCoroutine(StartCooldown());
+        
     }
 
     public IEnumerator StartCooldown()
@@ -224,6 +233,7 @@ public class NpcController : MonoBehaviour
 
     public void Chase()
     {
+        animator.SetBool(_isMoving, true);
         if (target != null)
         {
             var path = GetComponent<AStar.Grid>().Path;
