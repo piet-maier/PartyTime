@@ -21,11 +21,11 @@ public class NpcController : MonoBehaviour
     public float moveSpeed;
 
     // A minimum and maximum time delay for taking a decision, choosing a direction to move in
-    public Vector2 decisionTime = new Vector2(1, 4);
+    public Vector2 decisionTime = new Vector2(1, 2);
     internal float decisionTimeCount = 0;
 
     // The possible directions that the object can move int, right, left, up, down, and zero for staying in place. I added zero twice to give a bigger chance if it happening than other directions
-    internal Vector2[] moveDirections = new Vector2[] { Vector2.right, Vector2.left, Vector2.up, Vector2.down, Vector2.zero, Vector2.zero, Vector2.zero, Vector2.zero };
+    internal Vector2[] moveDirections = new Vector2[] { Vector2.right, Vector2.left, Vector2.up, Vector2.down, Vector2.zero, Vector2.zero };
     internal int currentMoveDirection;
 
 
@@ -53,7 +53,10 @@ public class NpcController : MonoBehaviour
     public GameObject damagePopUp;
 
 
-
+    private void Awake()
+    {
+        target = GameObject.FindWithTag("Player").GetComponent<Rigidbody2D>();
+    }
 
     // Use this for initialization
     public void Start()
@@ -67,8 +70,6 @@ public class NpcController : MonoBehaviour
         scoreValue = npc.scoreValue;
         damage = npc.damage;
         hitCD = npc.hitCD;
-
-
 
         if (GameObject.FindGameObjectsWithTag("spawnArea") != null)
             connectedSpawnArea = GetComponentInParent<NPCSpawn>().gameObject;
@@ -232,7 +233,7 @@ public class NpcController : MonoBehaviour
     public void StopChasingPlayer()
     {
         _rigidbody.velocity = new Vector2(0, 0);
-        target = null;
+        //target = null;
         isChasing = false;
     }
 

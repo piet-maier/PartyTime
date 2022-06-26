@@ -9013,6 +9013,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3405290860826083415, guid: 7103c81229d118f4c87acf8a9d87bbd8, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -11094,22 +11098,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5150735539725023074, guid: b84049d00ff424c6d8a6d32d04951b52, type: 3}
   m_PrefabInstance: {fileID: 7892196300596920631}
   m_PrefabAsset: {fileID: 0}
---- !u!58 &1927155021
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1927155009}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.0077745914, y: -0.03498441}
-  serializedVersion: 2
-  m_Radius: 0.720347
 --- !u!114 &1927155027
 MonoBehaviour:
   m_ObjectHideFlags: 0
