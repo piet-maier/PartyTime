@@ -5924,6 +5924,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7887449535940791819, guid: 5100f6be6209d514da122d56c46bed57, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7887449535940791819, guid: 5100f6be6209d514da122d56c46bed57, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7887449535940791819, guid: 5100f6be6209d514da122d56c46bed57, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
@@ -5960,7 +5968,7 @@ Animator:
   m_GameObject: {fileID: 4330503631240482052}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ac0279d66c94ace428443572fa0f59f0, type: 2}
+  m_Controller: {fileID: 9100000, guid: 51ee0c5846c6caa4fb36aaabbd1093b4, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -6071,7 +6079,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7249379798468825293, guid: b84049d00ff424c6d8a6d32d04951b52, type: 3}
       propertyPath: attackRange
-      value: 0.2
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 7249379798468825293, guid: b84049d00ff424c6d8a6d32d04951b52, type: 3}
       propertyPath: itemContainer
@@ -6089,5 +6097,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 133001945389006394, guid: b84049d00ff424c6d8a6d32d04951b52, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b84049d00ff424c6d8a6d32d04951b52, type: 3}

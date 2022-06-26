@@ -6,6 +6,6 @@ public class DamagePopUpHandler : MonoBehaviour
 {
     public void Start()
     {
-        Destroy(gameObject, 1f);
+        Destroy(gameObject, 2f);
     }
 }
