@@ -56,6 +56,9 @@ public class NpcController : MonoBehaviour
 
     public Sprite sprite;
 
+    public bool left;
+    public bool right;
+
 
     private void Awake()
     {
@@ -238,6 +241,11 @@ public class NpcController : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
+        if(collision.transform.position.x > gameObject.transform.position.x)
+            left = true;
+        else
+            right = true;
+
         if (collision.CompareTag("Player"))
         {
             target = collision.gameObject.GetComponent<Rigidbody2D>();
@@ -252,17 +260,17 @@ public class NpcController : MonoBehaviour
         isChasing = false;
     }
 
-
-
-
-
     public void Damage(int dmg)
     {
         if(dmg > 0)
         {
             GameObject damage = Instantiate(damagePopUp, transform.position, Quaternion.identity) as GameObject;
             damage.transform.GetChild(0).GetComponent<TextMeshPro>().text = dmg.ToString();
-            _rigidbody.AddForce(Vector2.right * gameObject.transform.localScale * 300); //knockback
+            
+            if(right == true)
+                _rigidbody.AddForce(Vector2.right * gameObject.transform.localScale * 300); //knockback
+            if(left == true)
+                _rigidbody.AddForce(Vector2.left * gameObject.transform.localScale * 300);
         }
         else
         {

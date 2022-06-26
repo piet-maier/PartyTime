@@ -456,6 +456,8 @@ MonoBehaviour:
   damagePopUp: {fileID: 2863750214989458369, guid: 5100f6be6209d514da122d56c46bed57, type: 3}
   spriterenderer: {fileID: 0}
   sprite: {fileID: 0}
+  left: 0
+  right: 0
 --- !u!212 &6384326425304819723
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -568,8 +570,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.022857666, y: -0.06855774}
-  m_Size: {x: 0.11767578, y: 0.33969116}
+  m_Offset: {x: -0.025054932, y: -0.06460571}
+  m_Size: {x: 0.11328125, y: 0.3317871}
   m_Direction: 0
 --- !u!1 &7916830689543689072
 GameObject:
