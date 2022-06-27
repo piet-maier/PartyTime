@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour
 {
+    private int regenDelay;
+
     public float movementSpeed = 1;
     public float health;
     public float maxHealth;
@@ -91,6 +93,7 @@ public class PlayerScript : MonoBehaviour
                 //StartCoroutine(StartCooldown());
 
             }
+
         }
         
         //HealthbarUpdate();
@@ -99,6 +102,12 @@ public class PlayerScript : MonoBehaviour
         {
             Die();
         }
+
+        if(health < maxHealth && regenDelay == 0){
+                health += 1;
+                regenDelay = 500;
+            }
+        regenDelay--;
 
         if (target != null)
             distToTarget = Vector2.Distance(transform.position, target.position);
@@ -182,6 +191,7 @@ public class PlayerScript : MonoBehaviour
         //    GameObject damage = Instantiate(damagePopUp, transform.position, Quaternion.identity) as GameObject;
         //    damage.transform.GetChild(0).GetComponent<TextMeshPro>().text = "MISSED";
         //}
+        regenDelay = 3000;
 
         if (health > 0)
             health -= dmg;
