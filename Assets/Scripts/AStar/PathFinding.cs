@@ -23,7 +23,7 @@ namespace AStar
                 for (var i = 1; i < open.Count; i++)
                 {
                     if (open[i].FCost < current.FCost) current = open[i];
-                    else if (open[i].FCost == current.FCost && open[i].HCost < current.HCost) current = open[i];
+                    else if (open[i].FCost == current.FCost && open[i].hCost < current.hCost) current = open[i];
                 }
 
                 open.Remove(current);
@@ -37,13 +37,13 @@ namespace AStar
 
                 foreach (var neighbour in grid.GetNeighbours(current))
                 {
-                    if (neighbour.IsObstacle || closed.Contains(neighbour)) continue;
-                    var newCost = current.GCost + Distance(current, neighbour);
+                    if (neighbour.isObstacle || closed.Contains(neighbour)) continue;
+                    var newCost = current.gCost + Distance(current, neighbour);
 
-                    if (newCost >= current.GCost && open.Contains(neighbour)) continue;
-                    neighbour.GCost = newCost;
-                    neighbour.HCost = Distance(neighbour, goalNode);
-                    neighbour.Previous = current;
+                    if (newCost >= current.gCost && open.Contains(neighbour)) continue;
+                    neighbour.gCost = newCost;
+                    neighbour.hCost = Distance(neighbour, goalNode);
+                    neighbour.previous = current;
 
                     if (!open.Contains(neighbour)) open.Add(neighbour);
                 }
@@ -52,8 +52,8 @@ namespace AStar
 
         private static int Distance(Node a, Node b)
         {
-            var distanceX = Mathf.Abs(a.X - b.X);
-            var distanceY = Mathf.Abs(a.Y - b.Y);
+            var distanceX = Mathf.Abs(a.x - b.x);
+            var distanceY = Mathf.Abs(a.y - b.y);
             if (distanceX < distanceY) return 14 * distanceX + 10 * (distanceY - distanceX);
             return 14 * distanceY + 10 * (distanceX - distanceY);
         }
@@ -66,12 +66,12 @@ namespace AStar
             while (current != startNode)
             {
                 path.Add(current);
-                current = current.Previous;
+                current = current.previous;
             }
 
             path.Reverse();
 
-            grid.Path = path;
+            grid.path = path;
         }
     }
 }

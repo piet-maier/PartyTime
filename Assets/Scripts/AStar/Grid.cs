@@ -10,7 +10,7 @@ namespace AStar
 
         // Unity Grid Position (Center)
         public Vector3 worldPosition;
-        
+
         // Unity Grid Size (Multiple of 2 * Cell Size)
         public Vector3 worldSize;
 
@@ -20,7 +20,7 @@ namespace AStar
         // Obstacle Tile Maps
         public Tilemap[] obstacles;
 
-        public List<Node> Path;
+        public List<Node> path;
 
         private Node[,] _nodes;
 
@@ -31,7 +31,7 @@ namespace AStar
         public void Start()
         {
             _player = GameObject.FindWithTag("Player").GetComponent<Transform>();
-            
+
             _sizeX = Mathf.RoundToInt(worldSize.x / (2 * nodeRadius));
             _sizeY = Mathf.RoundToInt(worldSize.y / (2 * nodeRadius));
 
@@ -61,12 +61,12 @@ namespace AStar
 
                     // Initialize Node
                     _nodes[i, j] = new Node(corner + right + up, i, j, false);
-                    
+
                     // Check Obstacles
                     foreach (var map in obstacles)
                     {
-                        if (!map.HasTile(map.WorldToCell(_nodes[i, j].WorldPosition))) continue;
-                        _nodes[i, j].IsObstacle = true;
+                        if (!map.HasTile(map.WorldToCell(_nodes[i, j].worldPosition))) continue;
+                        _nodes[i, j].isObstacle = true;
                         break;
                     }
                 }
@@ -93,8 +93,8 @@ namespace AStar
                 {
                     if (i == 0 && j == 0) continue;
 
-                    var x = node.X + i;
-                    var y = node.Y + j;
+                    var x = node.x + i;
+                    var y = node.y + j;
 
                     if (x >= 0 && x < _sizeX && y >= 0 && y < _sizeY) neighbours.Add(_nodes[x, y]);
                 }
@@ -108,23 +108,22 @@ namespace AStar
             Gizmos.color = Color.red;
             // Outline Grid in Scene View
             Gizmos.DrawWireCube(worldPosition, worldSize);
-            
+
             if (_nodes == null) return;
             var playerPosition = WorldToNode(_player.position + Vector3.down * 2 * nodeRadius);
-            
+
             // Draw Nodes in Scene View
             foreach (var node in _nodes)
             {
                 // Player Position = Gray
                 if (node == playerPosition) Gizmos.color = Color.gray;
                 // Path = Black
-                else if (Path.Contains(node)) Gizmos.color = Color.black;
+                else if (path != null && path.Contains(node)) Gizmos.color = Color.black;
                 // Obstacles = Red
-                else if (node.IsObstacle) Gizmos.color = Color.red;
-
+                else if (node.isObstacle) Gizmos.color = Color.red;
                 else continue;
-                
-                Gizmos.DrawCube(node.WorldPosition, Vector3.one * nodeRadius);
+
+                Gizmos.DrawCube(node.worldPosition, Vector3.one * nodeRadius);
             }
         }
     }
