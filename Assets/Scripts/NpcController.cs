@@ -153,6 +153,7 @@ public class NpcController : MonoBehaviour
                 Attack();
             }
         }
+
     }
 
 
@@ -223,6 +224,13 @@ public class NpcController : MonoBehaviour
             // Choose a movement direction, or stay in place
             ChooseMoveDirection();
         }
+
+        if(currentMoveDirection == 0){
+            spriterenderer.flipX = true;
+        }
+        if(currentMoveDirection == 1){
+            spriterenderer.flipX = false;
+        }
     }
 
     void ChooseMoveDirection()
@@ -241,6 +249,13 @@ public class NpcController : MonoBehaviour
             {
                 var target = new Vector2(path[0].WorldPosition.x, path[0].WorldPosition.y);
                 _rigidbody.MovePosition(_rigidbody.position + moveSpeed * Time.deltaTime * (target - _rigidbody.position).normalized);
+
+                if(target.x < 0){
+                    spriterenderer.flipX = false;
+                }
+                if(target.x > 0){
+                    spriterenderer.flipX = true;
+                }
             }
             //transform.position = Vector2.MoveTowards(transform.position, target.transform.position, moveSpeed * Time.deltaTime);
            
