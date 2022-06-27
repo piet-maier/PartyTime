@@ -233,7 +233,7 @@ public class NpcController : MonoBehaviour
 
     public void Chase()
     {
-        animator.SetBool(_isMoving, true);
+        _animator.SetBool(_isMoving, true);
         if (target != null)
         {
             var path = GetComponent<AStar.Grid>().Path;
