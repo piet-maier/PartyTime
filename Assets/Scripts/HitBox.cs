@@ -3,9 +3,9 @@ using UnityEngine;
 public class HitBox : MonoBehaviour
 {
     private PolygonCollider2D _playerCollider;
-    
+
     private PolygonCollider2D[] _colliders;
-    
+
     public PolygonCollider2D attack;
 
     public enum HitBoxes
@@ -19,13 +19,13 @@ public class HitBox : MonoBehaviour
         _playerCollider = gameObject.AddComponent<PolygonCollider2D>();
         _playerCollider.isTrigger = true;
         _playerCollider.pathCount = 0;
-        
+
         _colliders = new PolygonCollider2D[] { attack };
     }
 
     public void OnTriggerEnter2D(Collider2D col)
     {
-        //Debug.Log("The player hit something.");
+        // Debug.Log("The player hit something.");
     }
 
     public void SetHitBox(HitBoxes box)

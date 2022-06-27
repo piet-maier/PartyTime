@@ -244,10 +244,10 @@ public class NpcController : MonoBehaviour
         _animator.SetBool(_isMoving, true);
         if (target != null)
         {
-            var path = GetComponent<AStar.Grid>().Path;
+            var path = GetComponent<AStar.Grid>().path;
             if(path != null && path.Count != 0)
             {
-                var target = new Vector2(path[0].WorldPosition.x, path[0].WorldPosition.y);
+                var target = new Vector2(path[0].worldPosition.x, path[0].worldPosition.y);
                 _rigidbody.MovePosition(_rigidbody.position + moveSpeed * Time.deltaTime * (target - _rigidbody.position).normalized);
 
                 if(target.x < 0){
