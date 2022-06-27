@@ -26,7 +26,7 @@ public class PostProcessing : MonoBehaviour
 
         pGrain = ScriptableObject.CreateInstance<Grain>();
         pGrain.enabled.Override(true);
-        pGrain.intensity.Override(1f);
+        pGrain.intensity.Override(0.3f);
         poprovol = PostProcessManager.instance.QuickVolume(gameObject.layer, 100f, pGrain);
 
         pColorGrading = ScriptableObject.CreateInstance<ColorGrading>();
@@ -48,5 +48,9 @@ public class PostProcessing : MonoBehaviour
         if(player.health < player.maxHealth / 2f){
             pVignette.intensity.Override((player.maxHealth / 2f - player.health) / (player.maxHealth / 2));
         }
+        //pChromaticAberration.intensity.Override(1f - 1f / (player.fightIntensity + 1f));
+        //pColorGrading.lift.red.Override(100 + Mathf.Sin(DateTime.Now));
+        //pColorGrading.lift.green.Override(0);
+        //pColorGrading.lift.blue.Override(0);
     }
 }

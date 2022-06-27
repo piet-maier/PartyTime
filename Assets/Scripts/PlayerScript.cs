@@ -6,7 +6,9 @@ using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour
 {
-    private int regenDelay;
+    //private int regenDelay;
+    //for PP
+    //public int fightIntensity = 0;
 
     public float movementSpeed = 1;
     public float health;
@@ -91,7 +93,7 @@ public class PlayerScript : MonoBehaviour
             {
                 //Attack();
                 //StartCoroutine(StartCooldown());
-
+                //fightIntensity += 1000;
             }
 
         }
@@ -103,11 +105,12 @@ public class PlayerScript : MonoBehaviour
             Die();
         }
 
-        if(health < maxHealth && regenDelay == 0){
+        /*if(health < maxHealth && regenDelay == 0){
                 health += 1;
                 regenDelay = 500;
             }
-        regenDelay--;
+        regenDelay--;*/
+        //fightIntensity--;
 
         if (target != null)
             distToTarget = Vector2.Distance(transform.position, target.position);
@@ -191,7 +194,8 @@ public class PlayerScript : MonoBehaviour
         //    GameObject damage = Instantiate(damagePopUp, transform.position, Quaternion.identity) as GameObject;
         //    damage.transform.GetChild(0).GetComponent<TextMeshPro>().text = "MISSED";
         //}
-        regenDelay = 3000;
+        //regenDelay = 3000;
+        //fightIntensity += 1500;
 
         if (health > 0)
             health -= dmg;
