@@ -38,6 +38,8 @@ public class NPCSpawn : MonoBehaviour
             grid.obstacles = obstacles;
 
             npc.transform.SetParent(gameObject.transform);
+            npc.transform.position = gameObject.transform.position;
+
             npcsAlive++;
         }
     }
