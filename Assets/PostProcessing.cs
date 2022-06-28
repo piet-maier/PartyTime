@@ -31,6 +31,7 @@ public class PostProcessing : MonoBehaviour
 
         pColorGrading = ScriptableObject.CreateInstance<ColorGrading>();
         pColorGrading.enabled.Override(true);
+        //pColorGrading.mode.value = ColorGradingMode.LowDefinitionRange;
         poprovol = PostProcessManager.instance.QuickVolume(gameObject.layer, 100f, pColorGrading);
 
         pLensDistortion = ScriptableObject.CreateInstance<LensDistortion>();
@@ -48,9 +49,14 @@ public class PostProcessing : MonoBehaviour
         if(player.health < player.maxHealth / 2f){
             pVignette.intensity.Override((player.maxHealth / 2f - player.health) / (player.maxHealth / 2));
         }
-        //pChromaticAberration.intensity.Override(1f - 1f / (player.fightIntensity + 1f));
-        //pColorGrading.lift.red.Override(100 + Mathf.Sin(DateTime.Now));
-        //pColorGrading.lift.green.Override(0);
-        //pColorGrading.lift.blue.Override(0);
+        pChromaticAberration.intensity.Override((1f - 1f / (player.fightIntensity / 1000f + 1f)));
+        Vector4 v = new Vector4( 
+            1f / (1f - Mathf.Sin(Time.time / 1000) * player.fightIntensity / 1000f), 
+            1f / (1f - Mathf.Sin(Time.time / 1000) * player.fightIntensity / 1000f), 
+            1f / (1f - Mathf.Sin(Time.time / 1000) * player.fightIntensity / 1000f)
+            );
+        Vector4 test = new Vector4(0, 0, 0);
+        pColorGrading.channelMixer.Override(test);
+        Debug.Log(v);
     }
 }

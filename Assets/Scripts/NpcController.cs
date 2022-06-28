@@ -25,7 +25,7 @@ public class NpcController : MonoBehaviour
     internal float decisionTimeCount = 0;
 
     // The possible directions that the object can move int, right, left, up, down, and zero for staying in place. I added zero twice to give a bigger chance if it happening than other directions
-    internal Vector2[] moveDirections = new Vector2[] { Vector2.right, Vector2.left, Vector2.up, Vector2.down, Vector2.zero, Vector2.zero };
+    internal Vector2[] moveDirections = new Vector2[] { Vector2.right, Vector2.left, Vector2.up, Vector2.down, Vector2.zero, Vector2.zero, Vector2.zero, Vector2.zero, Vector2.zero, Vector2.zero };
     internal int currentMoveDirection;
 
 
@@ -180,7 +180,7 @@ public class NpcController : MonoBehaviour
     }
     public IEnumerator FlashDamage()
     {
-        spriterenderer.color = Color.red;
+        spriterenderer.color = Color.gray;
         yield return new WaitForSeconds(0.1f);
         spriterenderer.color = Color.white;
     }
