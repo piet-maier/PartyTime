@@ -50,13 +50,15 @@ public class PostProcessing : MonoBehaviour
             pVignette.intensity.Override((player.maxHealth / 2f - player.health) / (player.maxHealth / 2));
         }
         pChromaticAberration.intensity.Override((1f - 1f / (player.fightIntensity / 1000f + 1f)));
-        Vector4 v = new Vector4( 
+        /*Vector4 v = new Vector4( 
             1f / (1f - Mathf.Sin(Time.time / 1000) * player.fightIntensity / 1000f), 
             1f / (1f - Mathf.Sin(Time.time / 1000) * player.fightIntensity / 1000f), 
             1f / (1f - Mathf.Sin(Time.time / 1000) * player.fightIntensity / 1000f)
             );
         Vector4 test = new Vector4(0, 0, 0);
         pColorGrading.channelMixer.Override(test);
-        Debug.Log(v);
+        Debug.Log(v);*/
+        pColorGrading.hueShift.Override(Mathf.Sin(Time.time * 2f) * (1f - 1f / (player.fightIntensity / 1000f + 1f)) * 180);
+        Debug.Log(pColorGrading.hueShift.value);
     }
 }
