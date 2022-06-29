@@ -25,7 +25,12 @@ public class NpcController : MonoBehaviour
     internal float decisionTimeCount = 0;
 
     // The possible directions that the object can move int, right, left, up, down, and zero for staying in place. I added zero twice to give a bigger chance if it happening than other directions
-    internal Vector2[] moveDirections = new Vector2[] { Vector2.right, Vector2.left, Vector2.up, Vector2.down, Vector2.zero, Vector2.zero, Vector2.zero, Vector2.zero, Vector2.zero, Vector2.zero };
+    internal Vector2[] moveDirections = new Vector2[]
+    {
+        Vector2.right, Vector2.left, Vector2.up, Vector2.down, Vector2.zero, Vector2.zero, Vector2.zero, Vector2.zero,
+        Vector2.zero, Vector2.zero
+    };
+
     internal int currentMoveDirection;
 
 
@@ -58,7 +63,7 @@ public class NpcController : MonoBehaviour
 
     private Animator _animator;
     private readonly int _isMoving = Animator.StringToHash("IsWalking");
-    private readonly int _attack = Animator.StringToHash("Attack"); 
+    private readonly int _attack = Animator.StringToHash("Attack");
 
     public bool left;
     public bool right;
@@ -104,21 +109,20 @@ public class NpcController : MonoBehaviour
 
     public void Update()
     {
-
         slider.value = CalculateHealth();
 
-        if(health < maxHealth)
+        if (health < maxHealth)
             healthBarUI.SetActive(true);
         else
             healthBarUI.SetActive(false);
 
         if (health > maxHealth)
             health = maxHealth;
-        
 
-        if(health <= 0)
+
+        if (health <= 0)
         {
-            if(target != null)
+            if (target != null)
                 target.GetComponent<PlayerScript>().highscore += GetScoreValue();
 
             if (connectedSpawnArea != null)
@@ -130,7 +134,6 @@ public class NpcController : MonoBehaviour
         if (!isChasing)
         {
             Movement();
-
         }
 
         if (target != null)
@@ -153,9 +156,7 @@ public class NpcController : MonoBehaviour
                 Attack();
             }
         }
-
     }
-
 
 
     private float CalculateHealth()
@@ -165,11 +166,9 @@ public class NpcController : MonoBehaviour
 
     public void Attack()
     {
-        
         _animator.SetTrigger(_attack);
         target.GetComponent<PlayerScript>().Damage(Random.Range(0, damage));
         StartCoroutine(StartCooldown());
-        
     }
 
     public IEnumerator StartCooldown()
@@ -178,6 +177,7 @@ public class NpcController : MonoBehaviour
         yield return new WaitForSeconds(hitCD);
         isHitCD = false;
     }
+
     public IEnumerator FlashDamage()
     {
         spriterenderer.color = Color.gray;
@@ -195,13 +195,13 @@ public class NpcController : MonoBehaviour
             direction.Normalize();
             //movement = direction;
         }
-
     }
 
     public void Movement()
     {
         // Move the object in the chosen direction at the set speed
-        _rigidbody.MovePosition(_rigidbody.position + Time.deltaTime * moveSpeed * moveDirections[currentMoveDirection].normalized);
+        _rigidbody.MovePosition(_rigidbody.position +
+                                Time.deltaTime * moveSpeed * moveDirections[currentMoveDirection].normalized);
 
         //thisTransform.position += moveDirections[currentMoveDirection] * Time.deltaTime * moveSpeed;
 
@@ -225,10 +225,13 @@ public class NpcController : MonoBehaviour
             ChooseMoveDirection();
         }
 
-        if(currentMoveDirection == 0){
+        if (currentMoveDirection == 0)
+        {
             spriterenderer.flipX = true;
         }
-        if(currentMoveDirection == 1){
+
+        if (currentMoveDirection == 1)
+        {
             spriterenderer.flipX = false;
         }
     }
@@ -244,21 +247,24 @@ public class NpcController : MonoBehaviour
         _animator.SetBool(_isMoving, true);
         if (target != null)
         {
-            var path = GetComponent<AStar.Grid>().path;
-            if(path != null && path.Count != 0)
+            var path = GetComponent<PathFinding>().path;
+            if (path != null && path.Count != 0)
             {
                 var target = new Vector2(path[0].worldPosition.x, path[0].worldPosition.y);
-                _rigidbody.MovePosition(_rigidbody.position + moveSpeed * Time.deltaTime * (target - _rigidbody.position).normalized);
+                _rigidbody.MovePosition(_rigidbody.position +
+                                        moveSpeed * Time.deltaTime * (target - _rigidbody.position).normalized);
 
-                if(target.x < 0){
+                if (target.x < 0)
+                {
                     spriterenderer.flipX = false;
                 }
-                if(target.x > 0){
+
+                if (target.x > 0)
+                {
                     spriterenderer.flipX = true;
                 }
             }
             //transform.position = Vector2.MoveTowards(transform.position, target.transform.position, moveSpeed * Time.deltaTime);
-           
         }
 
         //rb.MovePosition((Vector2)transform.position + (direction * npc.speed * Time.deltaTime));
@@ -266,7 +272,7 @@ public class NpcController : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.transform.position.x > gameObject.transform.position.x)
+        if (collision.transform.position.x > gameObject.transform.position.x)
             left = true;
         else
             right = true;
@@ -287,21 +293,22 @@ public class NpcController : MonoBehaviour
 
     public void Damage(int dmg)
     {
-        if(dmg > 0)
+        if (dmg > 0)
         {
             GameObject damage = Instantiate(damagePopUp, transform.position, Quaternion.identity) as GameObject;
             damage.transform.GetChild(0).GetComponent<TextMeshPro>().text = dmg.ToString();
-            
-            if(right == true)
+
+            if (right == true)
                 _rigidbody.AddForce(Vector2.right * gameObject.transform.localScale * 300); //knockback
-            if(left == true)
+            if (left == true)
                 _rigidbody.AddForce(Vector2.left * gameObject.transform.localScale * 300);
         }
         else
         {
             GameObject damage = Instantiate(damagePopUp, transform.position, Quaternion.identity) as GameObject;
             damage.transform.GetChild(0).GetComponent<TextMeshPro>().text = "MISSED";
-        } 
+        }
+
         if (health > 0)
         {
             health -= dmg;

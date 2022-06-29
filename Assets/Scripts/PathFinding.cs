@@ -3,9 +3,10 @@ using UnityEngine;
 
 public class PathFinding : MonoBehaviour
 {
+    public List<AStar.Node> path;
+
     private AStar.Grid _grid;
     private Transform _player;
-    private List<AStar.Node> _path;
 
     public void Start()
     {
@@ -15,14 +16,14 @@ public class PathFinding : MonoBehaviour
 
     public void Update()
     {
-        _path = AStar.AStar.FindPath(_grid, transform.position, _player.position);
+        path = AStar.AStar.FindPath(_grid, transform.position, _player.position);
     }
 
     public void OnDrawGizmos()
     {
-        if (_path == null) return;
+        if (path == null) return;
         Gizmos.color = Color.gray;
-        foreach (var node in _path)
+        foreach (var node in path)
         {
             Gizmos.DrawCube(node.worldPosition, Vector3.one * _grid.nodeRadius);
         }

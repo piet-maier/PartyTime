@@ -26,16 +26,12 @@ public class NPCSpawn : MonoBehaviour
 
     public void Update()
     {
-
         if (!isSpawning && npcsAlive < maxNpcs)
         {
             StartCoroutine(StartCooldown());
             var npc = Instantiate(npcPrefabs);
 
-            var grid = npc.AddComponent<AStar.Grid>();
-            grid.worldPosition = worldPosition;
-            grid.worldSize = worldSize;
-            grid.obstacles = obstacles;
+            npc.AddComponent<PathFinding>();
 
             npc.transform.SetParent(gameObject.transform);
             npc.transform.position = gameObject.transform.position;
@@ -43,11 +39,11 @@ public class NPCSpawn : MonoBehaviour
             npcsAlive++;
         }
     }
+
     public IEnumerator StartCooldown()
     {
         isSpawning = true;
         yield return new WaitForSeconds(spawnTime);
         isSpawning = false;
     }
-
 }
