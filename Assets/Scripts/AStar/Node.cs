@@ -16,7 +16,7 @@ namespace AStar
         /// <summary>
         /// This variable contains the grid index of the node.
         /// </summary>
-        public readonly Vector2 _gridPosition;
+        private readonly Vector2 _gridPosition;
 
         /// <summary>
         /// This variable specifies whether the node is an obstacle or not.
