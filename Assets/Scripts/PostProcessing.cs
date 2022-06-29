@@ -59,6 +59,6 @@ public class PostProcessing : MonoBehaviour
         pColorGrading.channelMixer.Override(test);
         Debug.Log(v);*/
         pColorGrading.hueShift.Override(Mathf.Sin(Time.time * 2f) * (1f - 1f / (player.fightIntensity / 1000f + 1f)) * 180);
-        Debug.Log(pColorGrading.hueShift.value);
+        //Debug.Log(pColorGrading.hueShift.value);
     }
 }
