@@ -3,36 +3,35 @@ using UnityEngine;
 
 namespace AStar
 {
-    public static class PathFinding
+    /// <summary>
+    /// This class contains the implementation of the A* algorithm.
+    /// </summary>
+    public static class AStar
     {
-        // A* Implementation
-        public static void FindPath(Grid grid, Vector3 worldStart, Vector3 worldGoal)
+        /// <summary>
+        /// This method contains the implementation of the A* algorithm.
+        /// </summary>
+        public static List<Node> FindPath(Grid grid, Vector3 worldStart, Vector3 worldGoal)
         {
             var startNode = grid.WorldToNode(worldStart);
             var goalNode = grid.WorldToNode(worldGoal);
 
-            var open = new List<Node>();
+            var open = new BinaryHeap<Node>(grid.X * grid.Y);
             var closed = new HashSet<Node>();
+
+            var previous = new Node[grid.X, grid.Y];
 
             open.Add(startNode);
 
-            while (open.Count != 0)
+            while (open.Size != 0)
             {
-                var current = open[0];
+                var current = open.RemoveFirst();
 
-                for (var i = 1; i < open.Count; i++)
-                {
-                    if (open[i].FCost < current.FCost) current = open[i];
-                    else if (open[i].FCost == current.FCost && open[i].hCost < current.hCost) current = open[i];
-                }
-
-                open.Remove(current);
                 closed.Add(current);
 
                 if (current == goalNode)
                 {
-                    Retrace(grid, startNode, goalNode);
-                    return;
+                    return Retrace(startNode, goalNode, previous);
                 }
 
                 foreach (var neighbour in grid.GetNeighbours(current))
@@ -43,22 +42,30 @@ namespace AStar
                     if (newCost >= current.gCost && open.Contains(neighbour)) continue;
                     neighbour.gCost = newCost;
                     neighbour.hCost = Distance(neighbour, goalNode);
-                    neighbour.previous = current;
+                    previous[neighbour.X, neighbour.Y] = current;
 
                     if (!open.Contains(neighbour)) open.Add(neighbour);
                 }
             }
+
+            return null;
         }
 
+        /// <summary>
+        /// This method returns the distance between two nodes.
+        /// </summary>
         private static int Distance(Node a, Node b)
         {
-            var distanceX = Mathf.Abs(a.x - b.x);
-            var distanceY = Mathf.Abs(a.y - b.y);
+            var distanceX = Mathf.Abs(a.X - b.X);
+            var distanceY = Mathf.Abs(a.Y - b.Y);
             if (distanceX < distanceY) return 14 * distanceX + 10 * (distanceY - distanceX);
             return 14 * distanceY + 10 * (distanceX - distanceY);
         }
 
-        private static void Retrace(Grid grid, Node startNode, Node goalNode)
+        /// <summary>
+        /// This method retraces the correct path and returns it.
+        /// </summary>
+        private static List<Node> Retrace(Node startNode, Node goalNode, Node[,] previous)
         {
             var path = new List<Node>();
             var current = goalNode;
@@ -66,12 +73,12 @@ namespace AStar
             while (current != startNode)
             {
                 path.Add(current);
-                current = current.previous;
+                current = previous[current.X, current.Y];
             }
 
             path.Reverse();
 
-            grid.path = path;
+            return path;
         }
     }
 }

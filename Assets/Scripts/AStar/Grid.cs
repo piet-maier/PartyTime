@@ -1,68 +1,81 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 namespace AStar
 {
+    /// <summary>
+    /// This class represents the grid that is used to find a path.
+    /// </summary>
     public class Grid : MonoBehaviour
     {
-        private static Transform _player;
+        /// <summary>
+        /// This variable contains the radius of a single node.
+        /// </summary>
+        public float nodeRadius;
 
-        // Unity Grid Position (Center)
-        public Vector3 worldPosition;
+        /// <summary>
+        /// This variable contains the size of the grid.
+        /// The values should be multiples of the node size.
+        /// </summary>
+        public Vector3 size;
 
-        // Unity Grid Size (Multiple of 2 * Cell Size)
-        public Vector3 worldSize;
-
-        // Unity Grid -> Cell Size / 2
-        public float nodeRadius = 0.02F;
-
-        // Obstacle Tile Maps
+        /// <summary>
+        /// This variable contains all relevant tilemaps.
+        /// </summary>
         public Tilemap[] obstacles;
 
-        public List<Node> path;
-
+        /// <summary>
+        /// This variable contains the nodes that make up the grid.
+        /// </summary>
         private Node[,] _nodes;
 
-        // Cell Number
-        private int _sizeX, _sizeY;
+        /// <summary>
+        /// This variable contains the target to which a path is to be found.
+        /// </summary>
+        private Transform _player;
+
+        /// <summary>
+        /// This method returns the number of nodes on the horizontal axis.
+        /// </summary>
+        public int X => _nodes.GetLength(0);
+
+        /// <summary>
+        /// This method returns the number of nodes on the vertical axis.
+        /// </summary>
+        public int Y => _nodes.GetLength(1);
 
         // This method is called once at the start of the game.
         public void Start()
         {
-            _player = GameObject.FindWithTag("Player").GetComponent<Transform>();
-
-            _sizeX = Mathf.RoundToInt(worldSize.x / (2 * nodeRadius));
-            _sizeY = Mathf.RoundToInt(worldSize.y / (2 * nodeRadius));
+            _player = GameObject.Find("Player").GetComponent<Transform>();
 
             CreateGrid();
         }
 
-        public void Update()
-        {
-            PathFinding.FindPath(this, transform.position, _player.position);
-            //gameObject.GetComponentInChildren<Transform>().Find("Position").transform.position
-        }
-
-        // Initialize Grid & Check Obstacles
+        /// <summary>
+        /// This method initializes the grid and checks the tilemaps for obstacles.
+        /// </summary>
         private void CreateGrid()
         {
-            _nodes = new Node[_sizeX, _sizeY];
+            var x = Mathf.RoundToInt(size.x / (2 * nodeRadius));
+            var y = Mathf.RoundToInt(size.y / (2 * nodeRadius));
 
-            // Bottom Left Grid Corner
-            var corner = worldPosition + Vector3.left * worldSize.x / 2 + Vector3.down * worldSize.y / 2;
+            _nodes = new Node[x, y];
 
-            for (var i = 0; i < _sizeX; i++)
+            var corner = transform.position + Vector3.left * size.x / 2 + Vector3.down * size.y / 2;
+
+            for (var i = 0; i < X; i++)
             {
-                for (var j = 0; j < _sizeY; j++)
+                for (var j = 0; j < Y; j++)
                 {
                     var right = Vector3.right * ((2 * i + 1F) * nodeRadius);
                     var up = Vector3.up * ((2 * j + 1F) * nodeRadius);
+                    var gridPosition = new Vector2(i, j);
 
-                    // Initialize Node
-                    _nodes[i, j] = new Node(corner + right + up, i, j, false);
+                    _nodes[i, j] = new Node(corner + right + up, gridPosition, false);
 
-                    // Check Obstacles
                     foreach (var map in obstacles)
                     {
                         if (!map.HasTile(map.WorldToCell(_nodes[i, j].worldPosition))) continue;
@@ -71,18 +84,42 @@ namespace AStar
                     }
                 }
             }
+
+            foreach (var node in _nodes)
+            {
+                foreach (var map in obstacles)
+                {
+                    foreach (var neighbour in GetNeighbours(node)
+                                 .Where(neighbour => map.HasTile(map.WorldToCell(neighbour.worldPosition))))
+                    {
+                        node.isObstacle = true;
+                        break;
+                    }
+
+                    if (node.isObstacle) break;
+                }
+            }
         }
 
-        // World Coordinate -> Node
+        /// <summary>
+        /// This method returns the node that corresponds to the given coordinate.
+        /// </summary>
         public Node WorldToNode(Vector3 position)
         {
-            var percentX = Mathf.Clamp01((position.x + worldSize.x / 2) / worldSize.x);
-            var percentY = Mathf.Clamp01((position.y + worldSize.y / 2) / worldSize.y);
-            var x = Mathf.RoundToInt((_sizeX - 1) * percentX);
-            var y = Mathf.RoundToInt((_sizeY - 1) * percentY);
+            var gridCenter = transform.position;
+
+            var percentX = Mathf.Clamp01((position.x - gridCenter.x + size.x / 2) / size.x);
+            var percentY = Mathf.Clamp01((position.y - gridCenter.y + size.y / 2) / size.y);
+
+            var x = Mathf.RoundToInt((X - 1) * percentX);
+            var y = Mathf.RoundToInt((Y - 1) * percentY);
+
             return _nodes[x, y];
         }
 
+        /// <summary>
+        /// This method returns the neighbouring nodes of the given node.
+        /// </summary>
         public List<Node> GetNeighbours(Node node)
         {
             var neighbours = new List<Node>();
@@ -93,10 +130,10 @@ namespace AStar
                 {
                     if (i == 0 && j == 0) continue;
 
-                    var x = node.x + i;
-                    var y = node.y + j;
+                    var x = node.X + i;
+                    var y = node.Y + j;
 
-                    if (x >= 0 && x < _sizeX && y >= 0 && y < _sizeY) neighbours.Add(_nodes[x, y]);
+                    if (x >= 0 && x < X && y >= 0 && y < Y) neighbours.Add(_nodes[x, y]);
                 }
             }
 
@@ -105,21 +142,17 @@ namespace AStar
 
         public void OnDrawGizmos()
         {
-            Gizmos.color = Color.red;
-            // Outline Grid in Scene View
-            Gizmos.DrawWireCube(worldPosition, worldSize);
+            Gizmos.color = Color.black;
+            // Outline Grid
+            Gizmos.DrawWireCube(transform.position, size);
 
             if (_nodes == null) return;
-            var playerPosition = WorldToNode(_player.position + Vector3.down * 2 * nodeRadius);
+            var playerPosition = WorldToNode(_player.position);
 
-            // Draw Nodes in Scene View
+            // Draw Nodes
             foreach (var node in _nodes)
             {
-                // Player Position = Gray
-                if (node == playerPosition) Gizmos.color = Color.gray;
-                // Path = Black
-                else if (path != null && path.Contains(node)) Gizmos.color = Color.black;
-                // Obstacles = Red
+                if (node == playerPosition) Gizmos.color = Color.white;
                 else if (node.isObstacle) Gizmos.color = Color.red;
                 else continue;
 
