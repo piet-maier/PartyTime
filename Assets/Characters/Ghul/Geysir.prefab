@@ -389,12 +389,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8257991183875494925}
-  - component: {fileID: 6384326425304819724}
   - component: {fileID: 6384326425304819723}
   - component: {fileID: 6384326425304819727}
   - component: {fileID: 2460879583837991380}
   - component: {fileID: 6589753023713616042}
   - component: {fileID: 4641152987564061809}
+  - component: {fileID: -8259401269847018762}
   m_Layer: 0
   m_Name: Geysir
   m_TagString: NPC
@@ -424,41 +424,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0.64, y: 0.64}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &6384326425304819724
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6384326425304819721}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02d9413fa1f00e840907490409e01abb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  npc: {fileID: 11400000, guid: 364eb7c18a400ef498c75ea226bddbe3, type: 2}
-  health: 0
-  maxHealth: 0
-  healthBarUI: {fileID: 5331358931625565170}
-  slider: {fileID: 6678593982725556675}
-  moveSpeed: 0
-  decisionTime: {x: 1, y: 4}
-  connectedSpawnArea: {fileID: 0}
-  distToTarget: 0
-  isHitCD: 0
-  isChasing: 0
-  target: {fileID: 0}
-  aggroRange: 0
-  _rigidbody: {fileID: 6384326425304819727}
-  hitCD: 0
-  damage: 0
-  attackRange: 0
-  scoreValue: 0
-  damagePopUp: {fileID: 2863750214989458369, guid: 5100f6be6209d514da122d56c46bed57, type: 3}
-  spriterenderer: {fileID: 0}
-  sprite: {fileID: 0}
-  left: 0
-  right: 0
 --- !u!212 &6384326425304819723
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -594,6 +559,22 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-8259401269847018762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6384326425304819721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32e95185c378c6b4db0bb2dd3bd46cde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 5
+  persistent: 0
+  attackRange: 1
+  target: {fileID: 1664865760870133075, guid: b84049d00ff424c6d8a6d32d04951b52, type: 3}
 --- !u!1 &7916830689543689072
 GameObject:
   m_ObjectHideFlags: 0
