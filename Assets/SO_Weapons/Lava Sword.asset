@@ -12,6 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7463bb2fd0135df4191d7d5376422733, type: 3}
   m_Name: Lava Sword
   m_EditorClassIdentifier: 
-  itemSprite: {fileID: 21300000, guid: 0209fbfdad47d9f46aa6e38a5d5a1c3d, type: 3}
   name: Lava Schwert
+  heathValue: 0
+  collectable: 0
+  isPotion: 0
+  isRedPill: 0
+  isWeapon: 1
+  itemSprite: {fileID: 21300000, guid: 0209fbfdad47d9f46aa6e38a5d5a1c3d, type: 3}
   pickUpSound: {fileID: 8300000, guid: db31ad5aa687bff48982cd8fedf09afe, type: 3}

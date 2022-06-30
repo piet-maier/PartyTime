@@ -11,6 +11,8 @@ public class Item : ScriptableObject
 
     public bool collectable;
     public bool isPotion;
+    public bool isRedPill;
+    public bool isWeapon;
 
     public Sprite itemSprite;
     

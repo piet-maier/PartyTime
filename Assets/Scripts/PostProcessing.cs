@@ -5,8 +5,9 @@ using UnityEngine.Rendering.PostProcessing;
 
 public class PostProcessing : MonoBehaviour
 {
-
     public PlayerScript player;
+
+    public float intensity;
 
     public PostProcessVolume poprovol;
     Vignette pVignette;
@@ -46,10 +47,16 @@ public class PostProcessing : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (player.isPsychoCam)
+            intensity = player.PPintensity;
+        else
+            intensity = player.PPintensity;
+        
+
         if(player.health < player.maxHealth / 2f){
             pVignette.intensity.Override((player.maxHealth / 2f - player.health) / (player.maxHealth / 2));
         }
-        pChromaticAberration.intensity.Override((1f - 1f / (player.fightIntensity / 1000f + 1f)));
+        pChromaticAberration.intensity.Override((1f - 1f / (intensity / 1000f + 1f)));
         /*Vector4 v = new Vector4( 
             1f / (1f - Mathf.Sin(Time.time / 1000) * player.fightIntensity / 1000f), 
             1f / (1f - Mathf.Sin(Time.time / 1000) * player.fightIntensity / 1000f), 
@@ -58,7 +65,7 @@ public class PostProcessing : MonoBehaviour
         Vector4 test = new Vector4(0, 0, 0);
         pColorGrading.channelMixer.Override(test);
         Debug.Log(v);*/
-        pColorGrading.hueShift.Override(Mathf.Sin(Time.time * 2f) * (1f - 1f / (player.fightIntensity / 1000f + 1f)) * 180);
+        pColorGrading.hueShift.Override(Mathf.Sin(Time.time * 2f) * (1f - 1f / (intensity / 1000f + 1f)) * 180);
         //Debug.Log(pColorGrading.hueShift.value);
     }
 }

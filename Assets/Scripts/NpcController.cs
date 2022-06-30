@@ -8,6 +8,7 @@ using TMPro;
 public class NpcController : MonoBehaviour
 {
     public NPC npc;
+    public bool friendy;
 
     public float health;
     public float maxHealth;
@@ -141,6 +142,11 @@ public class NpcController : MonoBehaviour
 
         if (target != null)
         {
+            if (!target.GetComponent<PlayerScript>().isPsychoCam && !friendy)
+            {
+                Destroy(gameObject);
+            }
+
             distToTarget = Vector2.Distance(transform.position, target.position);
 
             if (distToTarget < aggroRange)

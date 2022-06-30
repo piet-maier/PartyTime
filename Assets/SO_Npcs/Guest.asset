@@ -15,6 +15,7 @@ MonoBehaviour:
   transform: {fileID: 0}
   name: Max
   category: Guest
+  friendly: 1
   health: 50
   damage: 1
   level: 1

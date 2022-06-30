@@ -10,6 +10,8 @@ public class Collecting : MonoBehaviour
     public int collectingMax;
     public int collectingAmount;
 
+    public bool collected;
+
     public string itemName;
 
     public GameObject collectingUI;
@@ -21,7 +23,15 @@ public class Collecting : MonoBehaviour
 
     public void Update()
     {
-        collectingUI.GetComponent<TextMeshProUGUI>().SetText(item.name + ": " + collectingAmount.ToString() + "/" + collectingMax);
+        if (gameObject.GetComponent<PlayerScript>().isPsychoCam)
+            collectingUI.SetActive(true);
+        else
+            collectingUI.SetActive(false);
+
+        ItemsCollected();
+
+        if (collectingUI != null)
+            collectingUI.GetComponent<TextMeshProUGUI>().SetText(item.name + ": " + collectingAmount.ToString() + "/" + collectingMax);
     }
 
 
@@ -32,4 +42,19 @@ public class Collecting : MonoBehaviour
             collectingAmount += 1;
         }
     }
+
+    public void ItemsCollected()
+    {
+        if(collectingAmount >= collectingMax)
+        {
+            gameObject.GetComponent<PlayerScript>().isPsychoCam = false;
+            Debug.Log("All " + item.name + " collected!");
+            collected = true;
+        }
+        else
+        {
+            collected = false;
+        }
+    }
+
 }

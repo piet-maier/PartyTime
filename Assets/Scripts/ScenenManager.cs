@@ -31,6 +31,11 @@ public class ScenenManager : MonoBehaviour
         SceneManager.LoadScene("GameOverScene");
     }
 
+    public static void GoToStartScene()
+    {
+        SceneManager.LoadScene("Start");
+    }
+
     public void GoToOptions()
     {
         mainMenu.SetActive(false);

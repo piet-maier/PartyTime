@@ -13,6 +13,8 @@ public class ItemController : MonoBehaviour
     public bool isHandUsed;
     public bool collectable;
     public bool isPotion;
+    public bool isRedPill;
+    public bool isWeapon;
 
     public int healthValue;
 
@@ -40,22 +42,22 @@ public class ItemController : MonoBehaviour
         }
     }
 
-    public GameObject InitItem()
+    public void InitItem()
     {
-        gameObject.name = item.name;
+        isWeapon = item.isWeapon;
+        isRedPill = item.isRedPill;
         isPotion = item.isPotion;
         collectable = item.collectable;
         healthValue = item.heathValue;
+        gameObject.name = item.name;
         gameObject.GetComponent<SpriteRenderer>().sprite = item.itemSprite;
 
         pickUpText.gameObject.SetActive(false);
-
-        return gameObject;
     }
 
     public void PickUpItem()
     {
-        if(!collectable && !isPotion)
+        if(isWeapon)
         {
             gameObject.GetComponent<Floating>().enabled = false;
             gameObject.GetComponent<Collider2D>().enabled = false;
@@ -75,6 +77,12 @@ public class ItemController : MonoBehaviour
         {
             player.GetComponent<PlayerScript>().health = healthValue;
             Destroy(gameObject);
+        }
+        else if(isRedPill)
+        {
+            Destroy(gameObject);
+            player.GetComponent<PlayerScript>().isPsychoCam = true;
+            ScenenManager.GoToGameScene();
         }
 
     }
@@ -96,6 +104,9 @@ public class ItemController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        player = collision.gameObject;
+        itemContainer = player.transform.GetChild(0).gameObject;
+
         if (collision.gameObject.CompareTag("Player"))
         {
             pickUpText.gameObject.SetActive(true);

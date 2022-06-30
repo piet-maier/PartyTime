@@ -11,15 +11,17 @@ public class NPCSpawn : MonoBehaviour
     public int maxNpcs;
     public float spawnTime;
     public bool isSpawning;
+    public bool spawnAllowed;
 
     public void Start()
     {
         isSpawning = false;
+        spawnAllowed = true;
     }
 
     public void Update()
     {
-        if (!isSpawning && npcsAlive < maxNpcs)
+        if (!isSpawning && npcsAlive < maxNpcs && spawnAllowed)
             StartCoroutine(StartCooldown());
     }
 

@@ -8,6 +8,7 @@ public class NPC : ScriptableObject
     public Transform transform;
     public new string name;
     public string category;
+    public bool friendly;
     public float health;
     public int damage;
     public int level;

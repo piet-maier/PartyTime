@@ -8,9 +8,9 @@ public class PlayerScript : MonoBehaviour
 {
     public int highscore;
 
-    private int regenDelay;
-    //for PP
-    public int fightIntensity = 0;
+
+    public bool isPsychoCam;
+    public float PPintensity;
 
     public float movementSpeed = 1;
     public float health;
@@ -62,7 +62,7 @@ public class PlayerScript : MonoBehaviour
 
         DontDestroyOnLoad(transform.gameObject);
 
-
+        isPsychoCam = false;
         playerName = "Dummy";
     }
 
@@ -80,6 +80,20 @@ public class PlayerScript : MonoBehaviour
             health = maxHealth;
 
         Move();
+
+        if (isPsychoCam)
+        {
+            PPintensity = 1000;
+        }
+        else
+        {
+            PPintensity = 0;
+        }
+        
+            
+
+        
+            
         
         if (Input.GetButtonDown("Fire1") && isHandUsed && !isAttack)
         {
@@ -95,7 +109,6 @@ public class PlayerScript : MonoBehaviour
             {
                 //Attack();
                 //StartCoroutine(StartCooldown());
-                fightIntensity += 1000;
             }
 
         }
@@ -105,15 +118,6 @@ public class PlayerScript : MonoBehaviour
         if (health <= 0)
         {
             Die();
-        }
-
-        if(health < maxHealth && regenDelay == 0){
-                health += 1;
-                regenDelay = 500;
-            }
-        regenDelay--;
-        if(fightIntensity > 0){
-            fightIntensity--;
         }
 
         if (target != null)
@@ -198,8 +202,6 @@ public class PlayerScript : MonoBehaviour
         //    GameObject damage = Instantiate(damagePopUp, transform.position, Quaternion.identity) as GameObject;
         //    damage.transform.GetChild(0).GetComponent<TextMeshPro>().text = "MISSED";
         //}
-        regenDelay = 3000;
-        fightIntensity += 1500;
 
         if (health > 0)
             health -= dmg;
