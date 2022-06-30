@@ -8,6 +8,7 @@ public class PlayerScript : MonoBehaviour
 {
     public int highscore;
 
+    public int level;
 
     public bool isPsychoCam;
     public float PPintensity;
@@ -46,19 +47,18 @@ public class PlayerScript : MonoBehaviour
     public bool isAttack;
 
     public GameObject damagePopUp;
-
     public GameObject scenenmanger;
 
     // This method is called once at the start of the game.
     public void Start()
     {
+        level = 0;
         maxHealth = health;
         slider.value = CalculateHealth();
 
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _renderer = GetComponent<SpriteRenderer>();
-
 
         DontDestroyOnLoad(transform.gameObject);
 
@@ -89,11 +89,7 @@ public class PlayerScript : MonoBehaviour
         {
             PPintensity = 0;
         }
-        
-            
-
-        
-            
+                   
         
         if (Input.GetButtonDown("Fire1") && isHandUsed && !isAttack)
         {
@@ -174,8 +170,6 @@ public class PlayerScript : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        
-
         if (collision.CompareTag("NPC"))
         {
             target = collision.gameObject.transform;

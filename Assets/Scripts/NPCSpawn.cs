@@ -15,6 +15,7 @@ public class NPCSpawn : MonoBehaviour
 
     public void Start()
     {
+        maxNpcs = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>().level;
         isSpawning = false;
         spawnAllowed = true;
     }

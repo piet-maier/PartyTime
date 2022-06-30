@@ -20,7 +20,7 @@ MonoBehaviour:
   damage: 3
   level: 1
   scoreValue: 2
-  speed: 0.5
+  speed: 1
   hitCD: 1
   aggroRange: 3
   attackRange: 0.1

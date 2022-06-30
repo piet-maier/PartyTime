@@ -4764,7 +4764,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 489c1c6db849d4b44bdadca6d7468bc9, type: 2}
   collectingMax: 10
-  collectingAmount: 0
+  collectingAmount: 9
+  collected: 0
   itemName: 
   collectingUI: {fileID: 1595496858}
 --- !u!114 &1432993749

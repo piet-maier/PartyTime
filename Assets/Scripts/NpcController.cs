@@ -298,9 +298,9 @@ public class NpcController : MonoBehaviour
             damage.transform.GetChild(0).GetComponent<TextMeshPro>().text = dmg.ToString();
 
             if (right == true)
-                _rigidbody.AddForce(Vector2.right * gameObject.transform.localScale * 2); //knockback
+                _rigidbody.AddForce(Vector2.right * gameObject.transform.localScale * 300); //knockback
             if (left == true)
-                _rigidbody.AddForce(Vector2.left * gameObject.transform.localScale * 2);
+                _rigidbody.AddForce(Vector2.left * gameObject.transform.localScale * 300);
         }
         else
         {
