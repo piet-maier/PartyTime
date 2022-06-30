@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7463bb2fd0135df4191d7d5376422733, type: 3}
   m_Name: Bluepill
   m_EditorClassIdentifier: 
-  itemSprite: {fileID: 0}
-  name: 
+  itemSprite: {fileID: 21300000, guid: 8457cc9eb40cb97429b287c5d1729480, type: 3}
+  name: Bluepill
   pickUpSound: {fileID: 0}
