@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7463bb2fd0135df4191d7d5376422733, type: 3}
   m_Name: Apple
   m_EditorClassIdentifier: 
-  itemSprite: {fileID: 21300000, guid: bf9ad6315d488114c9d8be99b65784da, type: 3}
   name: Apple
+  heathValue: 10
+  collectable: 0
+  isPotion: 1
+  itemSprite: {fileID: 21300000, guid: bf9ad6315d488114c9d8be99b65784da, type: 3}
   pickUpSound: {fileID: 0}
