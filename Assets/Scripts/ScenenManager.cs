@@ -21,12 +21,12 @@ public class ScenenManager : MonoBehaviour
         }
     }
 
-    public void GoToGameScene()
+    public static void GoToGameScene()
     {
         SceneManager.LoadScene("GameScene");
     }
 
-    public void GoToGameOverScene()
+    public static void GoToGameOverScene()
     {
         SceneManager.LoadScene("GameOverScene");
     }
@@ -50,13 +50,13 @@ public class ScenenManager : MonoBehaviour
         mainMenu.SetActive(true);
     }
 
-    public void Quit()
+    public static void Quit()
     {
         Application.Quit();                 //Erst bei der Exe Datei ausführbar
         Debug.Log("Quitting Game...");
     }
 
-    public void LoadNextScene()
+    public static void LoadNextScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }

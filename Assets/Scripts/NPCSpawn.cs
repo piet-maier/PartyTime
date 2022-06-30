@@ -12,11 +12,6 @@ public class NPCSpawn : MonoBehaviour
     public float spawnTime;
     public bool isSpawning;
 
-    //Grid
-    public Vector3 worldSize;
-    public Vector3 worldPosition;
-    public Tilemap[] obstacles;
-
     public void Start()
     {
         isSpawning = false;
@@ -39,8 +34,6 @@ public class NPCSpawn : MonoBehaviour
     public void SpawnNPC()
     {
         var npc = Instantiate(npcPrefabs);
-
-        npc.AddComponent<PathFinding>();
 
         npc.transform.SetParent(gameObject.transform);
         npc.transform.position = gameObject.transform.position;

@@ -24,15 +24,16 @@ public class NpcController : MonoBehaviour
     public Vector2 decisionTime = new Vector2(1, 2);
     internal float decisionTimeCount = 0;
 
-    // The possible directions that the object can move int, right, left, up, down, and zero for staying in place. I added zero twice to give a bigger chance if it happening than other directions
+    // The possible directions that the object can move int, right, left, up, down, and zero for staying in place.
+    // I added zero multiple times to give a bigger chance if it happening than other directions
     internal Vector2[] moveDirections = new Vector2[]
     {
-        Vector2.right, Vector2.left, Vector2.up, Vector2.down, Vector2.zero, Vector2.zero, Vector2.zero, Vector2.zero,
+        Vector2.right, Vector2.left, Vector2.up, Vector2.down,
+        Vector2.zero, Vector2.zero, Vector2.zero, Vector2.zero,
         Vector2.zero, Vector2.zero
     };
 
     internal int currentMoveDirection;
-
 
     public GameObject connectedSpawnArea;
 
@@ -94,6 +95,8 @@ public class NpcController : MonoBehaviour
             connectedSpawnArea = GetComponentInParent<NPCSpawn>().gameObject;
 
         _rigidbody = this.GetComponent<Rigidbody2D>();
+
+        gameObject.AddComponent<PathFinding>();
 
         // Cache the transform for quicker access
         thisTransform = this.transform;
@@ -205,13 +208,6 @@ public class NpcController : MonoBehaviour
 
         //thisTransform.position += moveDirections[currentMoveDirection] * Time.deltaTime * moveSpeed;
 
-        if (moveDirections[currentMoveDirection] == Vector2.zero)
-        {
-            //animator.SetBool("attack", false);
-            //animator.SetBool("run", false);
-            //animator.SetBool("idle", true);
-        }
-
         if (decisionTimeCount > 0)
         {
             decisionTimeCount -= Time.deltaTime;
@@ -264,10 +260,7 @@ public class NpcController : MonoBehaviour
                     spriterenderer.flipX = true;
                 }
             }
-            //transform.position = Vector2.MoveTowards(transform.position, target.transform.position, moveSpeed * Time.deltaTime);
         }
-
-        //rb.MovePosition((Vector2)transform.position + (direction * npc.speed * Time.deltaTime));
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
@@ -299,9 +292,9 @@ public class NpcController : MonoBehaviour
             damage.transform.GetChild(0).GetComponent<TextMeshPro>().text = dmg.ToString();
 
             if (right == true)
-                _rigidbody.AddForce(Vector2.right * gameObject.transform.localScale * 300); //knockback
+                _rigidbody.AddForce(Vector2.right * gameObject.transform.localScale * 2); //knockback
             if (left == true)
-                _rigidbody.AddForce(Vector2.left * gameObject.transform.localScale * 300);
+                _rigidbody.AddForce(Vector2.left * gameObject.transform.localScale * 2);
         }
         else
         {

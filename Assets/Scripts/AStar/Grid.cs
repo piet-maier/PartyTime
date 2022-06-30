@@ -85,20 +85,20 @@ namespace AStar
                 }
             }
 
-            foreach (var node in _nodes)
-            {
-                foreach (var map in obstacles)
-                {
-                    foreach (var neighbour in GetNeighbours(node)
-                                 .Where(neighbour => map.HasTile(map.WorldToCell(neighbour.worldPosition))))
-                    {
-                        node.isObstacle = true;
-                        break;
-                    }
+            //foreach (var node in _nodes)
+            //{
+            //    foreach (var map in obstacles)
+            //    {
+            //        foreach (var neighbour in GetNeighbours(node)
+            //                     .Where(neighbour => map.HasTile(map.WorldToCell(neighbour.worldPosition))))
+            //        {
+            //            node.isObstacle = true;
+            //            break;
+            //        }
 
-                    if (node.isObstacle) break;
-                }
-            }
+            //        if (node.isObstacle) break;
+            //    }
+            //}
         }
 
         /// <summary>

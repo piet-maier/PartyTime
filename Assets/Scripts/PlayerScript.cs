@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour
 {
+    public int highscore;
+
     private int regenDelay;
     //for PP
     public int fightIntensity = 0;
@@ -15,7 +17,7 @@ public class PlayerScript : MonoBehaviour
     public float maxHealth;
     public float attackRange;
     public int damage;
-    public int highscore;
+
     public string playerName;
 
     public GameObject healthBarUI;
@@ -57,9 +59,9 @@ public class PlayerScript : MonoBehaviour
         _animator = GetComponent<Animator>();
         _renderer = GetComponent<SpriteRenderer>();
 
-        
 
-       
+        DontDestroyOnLoad(transform.gameObject);
+
 
         playerName = "Dummy";
     }
@@ -212,7 +214,6 @@ public class PlayerScript : MonoBehaviour
 
     public void Die()
     {
-        Destroy(gameObject);
-        SceneManager.LoadScene("GameOverScene");
+        ScenenManager.GoToGameOverScene();
     }
 }
