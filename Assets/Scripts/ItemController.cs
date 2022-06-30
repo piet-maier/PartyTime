@@ -11,6 +11,10 @@ public class ItemController : MonoBehaviour
 
     public bool pickUpAllowed;
     public bool isHandUsed;
+    public bool collectable;
+    public bool isPotion;
+
+    public int healthValue;
 
     public GameObject itemContainer;
 
@@ -26,12 +30,9 @@ public class ItemController : MonoBehaviour
 
     public void Update()
     {
-        if ((Input.GetKeyDown(KeyCode.E)) && pickUpAllowed && !isHandUsed)
+        if ((Input.GetKeyDown(KeyCode.E) && pickUpAllowed && !isHandUsed))
         {
             PickUpItem();
-
-           
-
         }
         if(Input.GetKeyDown(KeyCode.G) && isHandUsed)
         {
@@ -42,6 +43,9 @@ public class ItemController : MonoBehaviour
     public GameObject InitItem()
     {
         gameObject.name = item.name;
+        isPotion = item.isPotion;
+        collectable = item.collectable;
+        healthValue = item.heathValue;
         gameObject.GetComponent<SpriteRenderer>().sprite = item.itemSprite;
 
         pickUpText.gameObject.SetActive(false);
@@ -51,14 +55,28 @@ public class ItemController : MonoBehaviour
 
     public void PickUpItem()
     {
-        gameObject.GetComponent<Floating>().enabled = false;
-        gameObject.GetComponent<Collider2D>().enabled = false;
-        gameObject.transform.parent = itemContainer.transform;
-        gameObject.transform.position = player.transform.position;
-        gameObject.GetComponent<SpriteRenderer>().sprite = null;
+        if(!collectable && !isPotion)
+        {
+            gameObject.GetComponent<Floating>().enabled = false;
+            gameObject.GetComponent<Collider2D>().enabled = false;
+            gameObject.transform.parent = itemContainer.transform;
+            gameObject.transform.position = player.transform.position;
+            gameObject.GetComponent<SpriteRenderer>().sprite = null;
 
-        player.GetComponent<PlayerScript>().isHandUsed = true;
-        isHandUsed = true;
+            player.GetComponent<PlayerScript>().isHandUsed = true;
+            isHandUsed = true;
+        }
+        else if(collectable)
+        {
+            player.GetComponent<Collecting>().SetItemAmount(item);
+            Destroy(gameObject);
+        }
+        else if(isPotion)
+        {
+            player.GetComponent<PlayerScript>().health = healthValue;
+            Destroy(gameObject);
+        }
+
     }
 
 
