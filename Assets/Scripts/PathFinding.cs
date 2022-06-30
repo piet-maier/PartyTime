@@ -16,7 +16,7 @@ public class PathFinding : MonoBehaviour
 
     public void Update()
     {
-        path = AStar.AStar.FindPath(_grid, transform.position, _player.position);
+        path = AStar.AStar.FindPath(_grid, gameObject.GetComponentInChildren<Transform>().transform.position, _player.position);
     }
 
     public void OnDrawGizmos()
