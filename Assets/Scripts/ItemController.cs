@@ -65,7 +65,7 @@ public class ItemController : MonoBehaviour
             gameObject.transform.position = player.transform.position;
             gameObject.GetComponent<SpriteRenderer>().sprite = null;
 
-            player.GetComponent<PlayerScript>().damage += player.GetComponent<PlayerScript>().level;
+            player.GetComponent<PlayerScript>().damage += 2;
 
             player.GetComponent<PlayerScript>().isHandUsed = true;
             isHandUsed = true;

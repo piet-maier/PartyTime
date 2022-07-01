@@ -81,8 +81,9 @@ public class NpcController : MonoBehaviour
 
     // Use this for initialization
     public void Start()
-    {
+    {   
         maxHealth = npc.health;
+        maxHealth += target.GetComponent<PlayerScript>().level + 2;
         health = maxHealth;
         slider.value = CalculateHealth();
         moveSpeed = npc.speed;
@@ -113,11 +114,7 @@ public class NpcController : MonoBehaviour
         ChooseMoveDirection();
 
         _animator = GetComponent<Animator>();
-
-
     }
-
-
 
     public IEnumerator DyingCooldown()
     {
@@ -127,12 +124,10 @@ public class NpcController : MonoBehaviour
         isDying = false;
         target.GetComponent<PlayerScript>().isPsychoCam = false;
         Die();
-        
-        
     }
+
     public void Update()
     {
-       
         slider.value = CalculateHealth();
 
         if (health < maxHealth)
@@ -142,7 +137,6 @@ public class NpcController : MonoBehaviour
 
         if (health > maxHealth)
             health = maxHealth;
-
 
         if (health <= 0 && !isDying)
         {    
@@ -155,25 +149,16 @@ public class NpcController : MonoBehaviour
             {
                 connectedSpawnArea.GetComponent<NPCSpawn>().npcsAlive--;
                 Die();
-
             }
             else if(connectedSpawnArea != null && connectedSpawnArea.GetComponent<NPCSpawn>().bossPrefab != null && connectedSpawnArea.GetComponent<NPCSpawn>().bossAlive)
             {
-                Debug.Log("jo");
                 connectedSpawnArea.GetComponent<NPCSpawn>().bossKilled = true;
                 connectedSpawnArea.GetComponent<NPCSpawn>().bossesAlive--;
                 connectedSpawnArea.GetComponent<NPCSpawn>().bossAlive = false;
                 
                 StartCoroutine(DyingCooldown());
-            }
-
-           
-
-           
+            }      
         }
-
-
-
 
         if (!isChasing)
         {
@@ -337,10 +322,10 @@ public class NpcController : MonoBehaviour
             GameObject damage = Instantiate(damagePopUp, transform.position, Quaternion.identity) as GameObject;
             damage.transform.GetChild(0).GetComponent<TextMeshPro>().text = dmg.ToString();
 
-            if (right == true)
-                _rigidbody.AddForce(Vector2.right * gameObject.transform.localScale * 300); //knockback
-            if (left == true)
-                _rigidbody.AddForce(Vector2.left * gameObject.transform.localScale * 300);
+            //if (right == true)
+            //    _rigidbody.AddForce(Vector2.right * gameObject.transform.localScale * 300); //knockback
+            //if (left == true)
+            //    _rigidbody.AddForce(Vector2.left * gameObject.transform.localScale * 300);
         }
         else
         {

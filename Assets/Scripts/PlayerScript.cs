@@ -49,6 +49,10 @@ public class PlayerScript : MonoBehaviour
     public GameObject damagePopUp;
     public GameObject scenenmanger;
 
+    public GameObject healthUI;
+    public GameObject damageUI;
+    public GameObject gameLevel;
+
     // This method is called once at the start of the game.
     public void Start()
     {
@@ -64,11 +68,19 @@ public class PlayerScript : MonoBehaviour
 
         isPsychoCam = false;
         playerName = "Dummy";
+
+        healthUI.GetComponent<TextMeshProUGUI>().SetText("HP: " + health + "/" + maxHealth);
+        damageUI.GetComponent<TextMeshProUGUI>().SetText("Hit: " + "0-" + damage.ToString());
+        gameLevel.GetComponent<TextMeshProUGUI>().SetText("Level: " + level);
     }
 
     // This method is called once per frame.
     public void Update()
     {
+        healthUI.GetComponent<TextMeshProUGUI>().SetText("HP: " + health + "/" + maxHealth);
+        damageUI.GetComponent<TextMeshProUGUI>().SetText("Hit: " + "0-" + damage.ToString());
+        gameLevel.GetComponent<TextMeshProUGUI>().SetText("Game Level: " + level);
+
         slider.value = CalculateHealth();
 
         if (health < maxHealth)
