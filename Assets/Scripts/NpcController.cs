@@ -66,10 +66,13 @@ public class NpcController : MonoBehaviour
     private Animator _animator;
     private readonly int _isMoving = Animator.StringToHash("IsWalking");
     private readonly int _attack = Animator.StringToHash("Attack");
+    private readonly int _die = Animator.StringToHash("Death");
 
     public bool left;
     public bool right;
 
+
+    public bool isDying;
 
     private void Awake()
     {
@@ -78,8 +81,9 @@ public class NpcController : MonoBehaviour
 
     // Use this for initialization
     public void Start()
-    {
+    {   
         maxHealth = npc.health;
+        maxHealth += target.GetComponent<PlayerScript>().level + 2;
         health = maxHealth;
         slider.value = CalculateHealth();
         moveSpeed = npc.speed;
@@ -88,7 +92,8 @@ public class NpcController : MonoBehaviour
         scoreValue = npc.scoreValue;
         damage = npc.damage;
         hitCD = npc.hitCD;
-        sprite = npc.sprite;
+
+        gameObject.GetComponent<SpriteRenderer>().sprite = npc.sprite;
 
         spriterenderer = GetComponent<SpriteRenderer>();
 
@@ -111,6 +116,16 @@ public class NpcController : MonoBehaviour
         _animator = GetComponent<Animator>();
     }
 
+    public IEnumerator DyingCooldown()
+    {
+        isDying = true;
+        _animator.SetTrigger(_die);
+        yield return new WaitForSeconds(1.5f);
+        isDying = false;
+        target.GetComponent<PlayerScript>().isPsychoCam = false;
+        Die();
+    }
+
     public void Update()
     {
         slider.value = CalculateHealth();
@@ -123,16 +138,26 @@ public class NpcController : MonoBehaviour
         if (health > maxHealth)
             health = maxHealth;
 
+        if (health <= 0 && !isDying)
+        {    
+            moveSpeed = 0;
 
-        if (health <= 0)
-        {
             if (target != null)
                 target.GetComponent<PlayerScript>().highscore += GetScoreValue();
 
-            if (connectedSpawnArea != null)
+            if (connectedSpawnArea != null && connectedSpawnArea.GetComponent<NPCSpawn>().npcPrefab != null && !connectedSpawnArea.GetComponent<NPCSpawn>().bossAlive)
+            {
                 connectedSpawnArea.GetComponent<NPCSpawn>().npcsAlive--;
-
-            Die();
+                Die();
+            }
+            else if(connectedSpawnArea != null && connectedSpawnArea.GetComponent<NPCSpawn>().bossPrefab != null && connectedSpawnArea.GetComponent<NPCSpawn>().bossAlive)
+            {
+                connectedSpawnArea.GetComponent<NPCSpawn>().bossKilled = true;
+                connectedSpawnArea.GetComponent<NPCSpawn>().bossesAlive--;
+                connectedSpawnArea.GetComponent<NPCSpawn>().bossAlive = false;
+                
+                StartCoroutine(DyingCooldown());
+            }      
         }
 
         if (!isChasing)
@@ -160,7 +185,7 @@ public class NpcController : MonoBehaviour
                 StopChasingPlayer();
             }
 
-            if (distToTarget < attackRange && !isHitCD)
+            if (distToTarget < attackRange && !isHitCD && !isDying)
             {
                 Attack();
             }
@@ -258,12 +283,12 @@ public class NpcController : MonoBehaviour
 
                 if (target.x < 0)
                 {
-                    spriterenderer.flipX = false;
+                    spriterenderer.flipX = true;
                 }
 
                 if (target.x > 0)
                 {
-                    spriterenderer.flipX = true;
+                    spriterenderer.flipX = false;
                 }
             }
         }
@@ -297,10 +322,10 @@ public class NpcController : MonoBehaviour
             GameObject damage = Instantiate(damagePopUp, transform.position, Quaternion.identity) as GameObject;
             damage.transform.GetChild(0).GetComponent<TextMeshPro>().text = dmg.ToString();
 
-            if (right == true)
-                _rigidbody.AddForce(Vector2.right * gameObject.transform.localScale * 300); //knockback
-            if (left == true)
-                _rigidbody.AddForce(Vector2.left * gameObject.transform.localScale * 300);
+            //if (right == true)
+            //    _rigidbody.AddForce(Vector2.right * gameObject.transform.localScale * 300); //knockback
+            //if (left == true)
+            //    _rigidbody.AddForce(Vector2.left * gameObject.transform.localScale * 300);
         }
         else
         {
@@ -321,6 +346,7 @@ public class NpcController : MonoBehaviour
 
     public void Die()
     {
+        
         Destroy(gameObject);
     }
 }

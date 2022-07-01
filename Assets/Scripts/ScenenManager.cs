@@ -15,8 +15,9 @@ public class ScenenManager : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if(Input.GetKeyDown(KeyCode.M))
         {
+           
             SceneManager.LoadScene("MainMenu");
         }
     }
@@ -33,6 +34,7 @@ public class ScenenManager : MonoBehaviour
 
     public static void GoToStartScene()
     {
+        Destroy(GameObject.FindGameObjectWithTag("Player"));
         SceneManager.LoadScene("Start");
     }
 

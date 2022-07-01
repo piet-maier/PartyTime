@@ -9,6 +9,7 @@ TagManager:
   - spawnArea
   - NPCposition
   - collectingUI
+  - BossNPC
   layers:
   - Default
   - TransparentFX

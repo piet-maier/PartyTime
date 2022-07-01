@@ -65,7 +65,7 @@ public class ItemController : MonoBehaviour
             gameObject.transform.position = player.transform.position;
             gameObject.GetComponent<SpriteRenderer>().sprite = null;
 
-            player.GetComponent<PlayerScript>().damage += player.GetComponent<PlayerScript>().level;
+            player.GetComponent<PlayerScript>().damage += 2;
 
             player.GetComponent<PlayerScript>().isHandUsed = true;
             isHandUsed = true;
@@ -77,7 +77,8 @@ public class ItemController : MonoBehaviour
         }
         else if(isPotion)
         {
-            player.GetComponent<PlayerScript>().health = healthValue;
+            player.GetComponent<PlayerScript>().maxHealth += 2;
+            player.GetComponent<PlayerScript>().health += healthValue;
             Destroy(gameObject);
         }
         else if(isRedPill)

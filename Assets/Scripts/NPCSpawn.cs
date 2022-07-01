@@ -5,7 +5,11 @@ using UnityEngine.Tilemaps;
 
 public class NPCSpawn : MonoBehaviour
 {
-    public GameObject npcPrefabs;
+    public GameObject npcPrefab;
+    public GameObject bossPrefab;
+
+    public int bossesAlive;
+    public int maxBosses;
 
     public int npcsAlive;
     public int maxNpcs;
@@ -13,16 +17,41 @@ public class NPCSpawn : MonoBehaviour
     public bool isSpawning;
     public bool spawnAllowed;
 
+    public bool bossAlive;
+    public bool collected;
+    public bool bossKilled;
+
+    public GameObject player;
+
+
+
     public void Start()
     {
-        maxNpcs = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>().level;
+        player = GameObject.FindGameObjectWithTag("Player");
+
+        
+        maxNpcs = player.GetComponent<PlayerScript>().level;
+
         isSpawning = false;
         spawnAllowed = true;
+        bossAlive = false;
+        bossKilled = false;
     }
+
+
 
     public void Update()
     {
-        if (!isSpawning && npcsAlive < maxNpcs && spawnAllowed)
+        collected = player.GetComponent<Collecting>().collected;
+
+        if (!bossAlive && collected && !bossKilled && bossPrefab != null)
+        {
+            SpawnBoss();
+            
+        }
+        
+
+        if (!isSpawning && npcsAlive < maxNpcs && spawnAllowed && npcPrefab != null)
             StartCoroutine(StartCooldown());
     }
 
@@ -36,11 +65,23 @@ public class NPCSpawn : MonoBehaviour
 
     public void SpawnNPC()
     {
-        var npc = Instantiate(npcPrefabs);
+        var npc = Instantiate(npcPrefab);
 
         npc.transform.SetParent(gameObject.transform);
         npc.transform.position = gameObject.transform.position;
 
         npcsAlive++;
+    }
+
+    public void SpawnBoss()
+    {
+
+        var boss = Instantiate(bossPrefab);
+        bossAlive = true;
+
+        boss.transform.SetParent(gameObject.transform);
+        boss.transform.position = gameObject.transform.position;
+
+        bossesAlive++;
     }
 }
