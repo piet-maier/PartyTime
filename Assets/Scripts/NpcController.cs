@@ -66,10 +66,13 @@ public class NpcController : MonoBehaviour
     private Animator _animator;
     private readonly int _isMoving = Animator.StringToHash("IsWalking");
     private readonly int _attack = Animator.StringToHash("Attack");
+    private readonly int _die = Animator.StringToHash("Death");
 
     public bool left;
     public bool right;
 
+
+    public bool isDying;
 
     private void Awake()
     {
@@ -88,7 +91,8 @@ public class NpcController : MonoBehaviour
         scoreValue = npc.scoreValue;
         damage = npc.damage;
         hitCD = npc.hitCD;
-        sprite = npc.sprite;
+
+        gameObject.GetComponent<SpriteRenderer>().sprite = npc.sprite;
 
         spriterenderer = GetComponent<SpriteRenderer>();
 
@@ -109,10 +113,26 @@ public class NpcController : MonoBehaviour
         ChooseMoveDirection();
 
         _animator = GetComponent<Animator>();
+
+
     }
 
+
+
+    public IEnumerator DyingCooldown()
+    {
+        isDying = true;
+        _animator.SetTrigger(_die);
+        yield return new WaitForSeconds(1.5f);
+        isDying = false;
+        target.GetComponent<PlayerScript>().isPsychoCam = false;
+        Die();
+        
+        
+    }
     public void Update()
     {
+       
         slider.value = CalculateHealth();
 
         if (health < maxHealth)
@@ -124,16 +144,36 @@ public class NpcController : MonoBehaviour
             health = maxHealth;
 
 
-        if (health <= 0)
-        {
+        if (health <= 0 && !isDying)
+        {    
+            moveSpeed = 0;
+
             if (target != null)
                 target.GetComponent<PlayerScript>().highscore += GetScoreValue();
 
-            if (connectedSpawnArea != null)
+            if (connectedSpawnArea != null && connectedSpawnArea.GetComponent<NPCSpawn>().npcPrefab != null && !connectedSpawnArea.GetComponent<NPCSpawn>().bossAlive)
+            {
                 connectedSpawnArea.GetComponent<NPCSpawn>().npcsAlive--;
+                Die();
 
-            Die();
+            }
+            else if(connectedSpawnArea != null && connectedSpawnArea.GetComponent<NPCSpawn>().bossPrefab != null && connectedSpawnArea.GetComponent<NPCSpawn>().bossAlive)
+            {
+                Debug.Log("jo");
+                connectedSpawnArea.GetComponent<NPCSpawn>().bossKilled = true;
+                connectedSpawnArea.GetComponent<NPCSpawn>().bossesAlive--;
+                connectedSpawnArea.GetComponent<NPCSpawn>().bossAlive = false;
+                
+                StartCoroutine(DyingCooldown());
+            }
+
+           
+
+           
         }
+
+
+
 
         if (!isChasing)
         {
@@ -160,7 +200,7 @@ public class NpcController : MonoBehaviour
                 StopChasingPlayer();
             }
 
-            if (distToTarget < attackRange && !isHitCD)
+            if (distToTarget < attackRange && !isHitCD && !isDying)
             {
                 Attack();
             }
@@ -258,12 +298,12 @@ public class NpcController : MonoBehaviour
 
                 if (target.x < 0)
                 {
-                    spriterenderer.flipX = false;
+                    spriterenderer.flipX = true;
                 }
 
                 if (target.x > 0)
                 {
-                    spriterenderer.flipX = true;
+                    spriterenderer.flipX = false;
                 }
             }
         }
@@ -321,6 +361,7 @@ public class NpcController : MonoBehaviour
 
     public void Die()
     {
+        
         Destroy(gameObject);
     }
 }

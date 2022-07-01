@@ -174,6 +174,7 @@ public class PlayerScript : MonoBehaviour
         {
             target = collision.gameObject.transform;
             collision.GetComponent<NpcController>().Damage(Random.Range(0, damage));
+            Debug.Log("DMG");
         }
     }
     public void OnTriggerExit2D(Collider2D collision)

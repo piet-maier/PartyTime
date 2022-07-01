@@ -47,8 +47,6 @@ public class Collecting : MonoBehaviour
     {
         if(collectingAmount >= collectingMax)
         {
-            gameObject.GetComponent<PlayerScript>().isPsychoCam = false;
-            Debug.Log("All " + item.name + " collected!");
             collected = true;
         }
         else

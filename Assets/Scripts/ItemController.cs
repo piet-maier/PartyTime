@@ -77,7 +77,8 @@ public class ItemController : MonoBehaviour
         }
         else if(isPotion)
         {
-            player.GetComponent<PlayerScript>().health = healthValue;
+            player.GetComponent<PlayerScript>().maxHealth += 2;
+            player.GetComponent<PlayerScript>().health += healthValue;
             Destroy(gameObject);
         }
         else if(isRedPill)
