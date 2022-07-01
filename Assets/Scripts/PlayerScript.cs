@@ -52,6 +52,7 @@ public class PlayerScript : MonoBehaviour
     public GameObject healthUI;
     public GameObject damageUI;
     public GameObject gameLevel;
+    public GameObject highscoreUI;
 
     // This method is called once at the start of the game.
     public void Start()
@@ -72,6 +73,7 @@ public class PlayerScript : MonoBehaviour
         healthUI.GetComponent<TextMeshProUGUI>().SetText("HP: " + health + "/" + maxHealth);
         damageUI.GetComponent<TextMeshProUGUI>().SetText("Hit: " + "0-" + damage.ToString());
         gameLevel.GetComponent<TextMeshProUGUI>().SetText("Level: " + level);
+        highscoreUI.GetComponent<TextMeshProUGUI>().SetText("Highscore: " + highscore);
     }
 
     // This method is called once per frame.
@@ -80,6 +82,7 @@ public class PlayerScript : MonoBehaviour
         healthUI.GetComponent<TextMeshProUGUI>().SetText("HP: " + health + "/" + maxHealth);
         damageUI.GetComponent<TextMeshProUGUI>().SetText("Hit: " + "0-" + damage.ToString());
         gameLevel.GetComponent<TextMeshProUGUI>().SetText("Game Level: " + level);
+        highscoreUI.GetComponent<TextMeshProUGUI>().SetText("Highscore: " + highscore);
 
         slider.value = CalculateHealth();
 
