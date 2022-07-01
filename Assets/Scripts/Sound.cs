@@ -12,7 +12,8 @@ public class Sound : MonoBehaviour
     public float volume;
     [Range(0.1f,0.3f)]
     public float pitch;
+    public bool loop;
 
-    [HideInInspector]
+    //[HideInInspector]
     public AudioSource source; 
 }
