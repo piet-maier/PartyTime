@@ -9,7 +9,7 @@ public class AudioManager : MonoBehaviour {
 
     void Awake(){
 
-        if (instance == null) instance = this; else { Destroy(gameObject); return; }
+        if (instance == null) instance = this; else { Destroy(gameObjext); return; }
         foreach(Sound s in sounds)
         {
             s.source = gameObject.AddComponent<AudioSource>();
@@ -29,6 +29,6 @@ public class AudioManager : MonoBehaviour {
     {
         Sound s = Array.Find(sounds, Sound => Sound.name == name);
         if (s == null) return;
-        s.source.Play();
+        s.source.Play()
     }
 }

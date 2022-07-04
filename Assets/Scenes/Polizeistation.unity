@@ -6327,7 +6327,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5150735539725023074, guid: b84049d00ff424c6d8a6d32d04951b52, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5150735539725023074, guid: b84049d00ff424c6d8a6d32d04951b52, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6469,19 +6469,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80c7dbb5a0673e343aa553efc746a86a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npcPrefab: {fileID: 0}
-  bossPrefab: {fileID: 0}
-  bossesAlive: 0
-  maxBosses: 0
+  npcPrefabs: {fileID: 6384326425304819721, guid: 7103c81229d118f4c87acf8a9d87bbd8, type: 3}
   npcsAlive: 0
   maxNpcs: 1
   spawnTime: 5
   isSpawning: 0
   spawnAllowed: 0
-  bossAlive: 0
-  collected: 0
-  bossKilled: 0
-  player: {fileID: 0}
 --- !u!4 &452214476
 Transform:
   m_ObjectHideFlags: 0
@@ -6495,7 +6488,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &529897786
 PrefabInstance:
@@ -6628,7 +6621,53 @@ Transform:
   - {fileID: 276014671}
   - {fileID: 1936207526}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &666946529
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 666946531}
+  - component: {fileID: 666946530}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &666946530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 666946529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e58e75bc45f2b864691a26799d70bcf6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - {fileID: 0}
+--- !u!4 &666946531
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 666946529}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.8948314, y: 2.3651235, z: 0.24114007}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &686660492
 GameObject:
@@ -6659,19 +6698,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80c7dbb5a0673e343aa553efc746a86a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npcPrefab: {fileID: 0}
-  bossPrefab: {fileID: 0}
-  bossesAlive: 0
-  maxBosses: 0
+  npcPrefabs: {fileID: 6384326425304819721, guid: 7103c81229d118f4c87acf8a9d87bbd8, type: 3}
   npcsAlive: 0
   maxNpcs: 1
   spawnTime: 5
   isSpawning: 0
   spawnAllowed: 0
-  bossAlive: 0
-  collected: 0
-  bossKilled: 0
-  player: {fileID: 0}
 --- !u!4 &686660494
 Transform:
   m_ObjectHideFlags: 0
@@ -6685,7 +6717,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &686735245
 GameObject:
@@ -6716,19 +6748,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80c7dbb5a0673e343aa553efc746a86a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npcPrefab: {fileID: 0}
-  bossPrefab: {fileID: 0}
-  bossesAlive: 0
-  maxBosses: 0
+  npcPrefabs: {fileID: 6384326425304819721, guid: 7103c81229d118f4c87acf8a9d87bbd8, type: 3}
   npcsAlive: 0
   maxNpcs: 1
   spawnTime: 5
   isSpawning: 0
   spawnAllowed: 0
-  bossAlive: 0
-  collected: 0
-  bossKilled: 0
-  player: {fileID: 0}
 --- !u!4 &686735247
 Transform:
   m_ObjectHideFlags: 0
@@ -6742,7 +6767,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &697973846
 GameObject:
@@ -6924,7 +6949,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &854018929
 GameObject:
@@ -14509,7 +14534,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1560074989
 GameObject:
@@ -33041,19 +33066,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80c7dbb5a0673e343aa553efc746a86a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npcPrefab: {fileID: 0}
-  bossPrefab: {fileID: 0}
-  bossesAlive: 0
-  maxBosses: 0
+  npcPrefabs: {fileID: 6384326425304819721, guid: 7103c81229d118f4c87acf8a9d87bbd8, type: 3}
   npcsAlive: 0
   maxNpcs: 1
   spawnTime: 5
   isSpawning: 0
   spawnAllowed: 0
-  bossAlive: 0
-  collected: 0
-  bossKilled: 0
-  player: {fileID: 0}
 --- !u!4 &1933895211
 Transform:
   m_ObjectHideFlags: 0
@@ -33067,7 +33085,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1936207525
 GameObject:
